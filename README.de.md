@@ -1,10 +1,10 @@
 🌐 **Language:** [English](./README.md) | **Deutsch**
 
-# ⚡ AI Token & Cost Tracker v1.0.0
+# ⚡ AI Token & Cost Tracker v1.0.2
 
 **Multi-Provider LLM API Gateway, projektgenaue Kostenabrechnung & IDE-isolierte Abo-Plan-Analytik**
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](#)
+[![Version](https://img.shields.io/badge/version-1.0.2-blue.svg)](#)
 [![Python](https://img.shields.io/badge/python-%3E%3D3.10%20(stdlib%20only)-3776AB.svg)](#voraussetzungen--installation)
 [![VS Code Engine](https://img.shields.io/badge/vscode-%5E1.85.0-007ACC.svg)](#multi-ide-extension--command-palette)
 [![Dependencies](https://img.shields.io/badge/dependencies-zero%20(0%20pip%20%2F%200%20npm)-success.svg)](#projektstruktur-qualitaetssicherung--marketplace-build)
@@ -31,7 +31,7 @@
 3. [Strikte IDE-Kontext-Isolation (4 Betriebsmodi)](#strikte-ide-kontext-isolation-4-betriebsmodi)
 4. [Sicherheitsarchitektur & Zero-Trust-Garantien](#sicherheitsarchitektur--zero-trust-garantien)
 5. [Multi-Provider LLM Gateway & Tarif-Engine](#multi-provider-llm-gateway--tarif-engine)
-6. [Voraussetzungen & Installation (Linux, WSL2, macOS)](#voraussetzungen--installation)
+6. [Voraussetzungen & Installation (Windows, macOS, Linux)](#voraussetzungen--installation)
 7. [Multi-IDE Extension & Command Palette](#multi-ide-extension--command-palette)
 8. [CLI-Referenz (`tracker-cli` & `ai-api`)](#cli-referenz-tracker-cli--ai-api)
 9. [Lokale Proxy-Endpunkte & SDK-/Plugin-Integration](#lokale-proxy-endpunkte--sdk-plugin-integration)
@@ -52,7 +52,7 @@ Moderne KI-gestützte Softwareentwicklung nutzt parallel **inkludierte IDE-Abonn
 2. **Kostenfallen durch stillen Fallback:** Das unbeabsichtigte Umschalten von einem erschöpften Inklusiv-Abo auf einen hinterlegten API-Key verursacht unkontrollierte Kosten.
 3. **Kontaminierte Metriken:** Inkludierte Abo-Tokens (`$0.00` Zusatzkosten) und kostenpflichtige API-Requests (`$` / `€`) werden in herkömmlichen Tools vermischt.
 
-**AI Token & Cost Tracker v1.0.0** löst diese Anforderungen durch eine lokal auf `127.0.0.1:8787` laufende **Dual-Ledger-Architektur**:
+**AI Token & Cost Tracker v1.0.2** löst diese Anforderungen durch eine lokal auf `127.0.0.1:8787` laufende **Dual-Ledger-Architektur**:
 
 | Merkmal | Ledger 1: Inkludierter IDE-Plan (`panel-plan`) | Ledger 2: Paid Multi-Model API (`panel-paid`) |
 | :--- | :--- | :--- |
@@ -202,22 +202,26 @@ Der lokale Reverse Proxy (`tracker/proxy_handler.py`) unterstützt sowohl synchr
 ---
 
 <a id="voraussetzungen--installation"></a>
-## 6. Voraussetzungen & Installation (Linux, WSL2, macOS)
+## 6. Voraussetzungen & Installation (Windows, macOS, Linux)
 
 ### Systemvoraussetzungen
 * **Python:** `python3 >= 3.10` (ausschließlich Python Standard Library — **keine** `pip`-Pakete oder virtuellen Environments erforderlich).
 * **Betriebssystem:** Linux (`systemd --user`), Windows Subsystem for Linux (WSL2), oder macOS (`launchd`).
 * **Unabhängigkeit:** Komplett eigenständiger Host-/User-Service (keine Abhängigkeit von DDEV, Docker oder projektspezifischen Runtimes).
 
-### Ein-Befehl-Installation
+### Installationsoptionen
+
+#### Option A: Autonome IDE-Extension installieren (Marketplace / Open VSX / VSIX-Release)
+1. **Über die IDE-Extensions-Ansicht:** Suchen Sie nach **`AI Token & Cost Tracker`** (`VladyslavVitko.ai-token-cost-tracker`) im VS Code Marketplace oder in der Open VSX Registry (Cursor, Antigravity IDE, Windsurf, VSCodium).
+2. **Oder per direktem VSIX-Download:** Laden Sie [`ai-token-tracker-1.0.2.vsix`](https://github.com/Vladyslav-Vitko/ai-token-tracker/releases/latest) herunter und wählen Sie `Ctrl+Shift+P` → **`Extensions: Install from VSIX...`**. Die Extension enthält das eingebettete Python-Backend und startet den lokalen Daemon (`127.0.0.1:8787`) automatisch beim IDE-Start.
+
+#### Option B: Standalone- / Entwickler-Service-Installation (`./install.sh`)
 
 ```bash
-git clone <IHRE-REPOSITORY-URL> ai-token-tracker
-cd ai-token-tracker
 ./install.sh
 ```
 
-### Was `./install.sh` deterministisch und idempotent ausführt:
+#### Was `./install.sh` deterministisch und idempotent ausführt:
 1. **Pfad-Registrierung:** Speichert den Installationspfad in `~/.config/ai-token-tracker/install_path` zur automatischen Erkennung durch alle IDE-Extensions.
 2. **Konfigurations- & Datenbank-Initialisierung:** Erstellt bzw. migriert `config/settings.json` (Schema v2), `config/secrets.json` (`chmod 0600`) und die SQLite-WAL-Datenbank `data/usage.sqlite3`.
 3. **CLI-Symlinks:** Verlinkt `ai-api`, `agy-api`, `tracker-cli` und `ai-tracker-server` nach `~/.local/bin/`.
@@ -225,7 +229,7 @@ cd ai-token-tracker
    * Antigravity IDE: `~/.gemini/config/hooks.json` (`PostInvocation` & `Stop`) sowie `useG1Credits: false` in `~/.gemini/antigravity-cli/settings.json`.
    * Cursor IDE: `~/.cursor/hooks.json` (`stop`-Hook auf `bin/cursor_plan_hook.py`).
 5. **Hintergrund-Daemon:** Richtet unter Linux/WSL2 den User-Service `~/.config/systemd/user/ai-token-tracker.service` (`systemctl --user enable --now`) bzw. unter macOS den LaunchAgent `~/Library/LaunchAgents/local.ai-token-tracker.plist` auf `http://127.0.0.1:8787` ein.
-6. **Multi-IDE VSIX-Build & Rollout:** Paketiert `vscode-extension/ai-token-tracker-1.0.0.vsix` ohne externe Build-Tools (`build_vsix.py`), entfernt etwaige Altinstallationen und installiert die Extension automatisch in alle erkannten lokalen sowie Remote-/WSL-IDEs (`antigravity-ide`, `cursor`, `code`, `code-insiders`, `codium`, `windsurf`, `~/.antigravity-ide-server`, `~/.cursor-server`, `~/.vscode-server`, `~/.windsurf-server`).
+6. **Multi-IDE VSIX-Build & Rollout:** Paketiert `vscode-extension/ai-token-tracker-1.0.2.vsix` ohne externe Build-Tools (`build_vsix.py`), entfernt etwaige Altinstallationen und installiert die Extension automatisch in alle erkannten lokalen sowie Remote-/WSL-IDEs (`antigravity-ide`, `cursor`, `code`, `code-insiders`, `codium`, `windsurf`, `~/.antigravity-ide-server`, `~/.cursor-server`, `~/.vscode-server`, `~/.windsurf-server`).
 
 Führen Sie anschließend in Ihrer IDE einmalig `Ctrl+Shift+P` (bzw. `Cmd+Shift+P`) → **`Developer: Reload Window`** aus.
 
@@ -253,15 +257,34 @@ Nach der Installation erscheint in der rechten unteren Statusleiste Ihrer IDE da
 | `aiTokenTracker.togglePaidLock` | **AI Token Tracker [PAID]: Schutzschalter umschalten (SPERREN / FREIGEBEN)** | Schaltet den globalen Paid-API-Schutzschalter (`paid_api_armed`) sofort um. |
 | `aiTokenTracker.setApiKey` | **AI Token Tracker [PAID]: Provider-API-Key sicher hinterlegen (Gemini, Claude, OpenAI...)** | Hinterlegt oder löscht API-Keys für beliebige Provider über ein maskiertes Passwort-Eingabefeld (`chmod 0600`). |
 | `aiTokenTracker.manageLicense` | **AI Token Tracker: Lizenzstatus & Pro-Upgrade verwalten (Free / Pro)** | Verwaltet die kostenlose Community Edition sowie die Aktivierung von Pro-/Team-Lizenzschlüsseln (Polar.sh, Lemon Squeezy, Offline `AITT1-*`). |
+| `aiTokenTracker.selectPython` | **AI Token Tracker: Python 3 Interpreter auswählen** | Dateiauswahl-Dialog zum manuellen Festlegen einer Python 3.10+ Binary (aktualisiert `aiTokenTracker.pythonPath`). |
+| `aiTokenTracker.showLogs` | **AI Token Tracker: Erweiterungs- & Daemon-Logs anzeigen** | Öffnet das dedizierte VS Code Output-Fenster (`View` → `Output` → `AI Token Tracker`) zur Live-Diagnose. |
 
 ### Extension-Einstellungen (`settings.json` der IDE)
 
 | Einstellung | Typ | Standardwert | Beschreibung |
 | :--- | :--- | :--- | :--- |
+| `aiTokenTracker.pythonPath` | `string` | `""` | Optionaler expliziter Pfad zum Python 3 (>= 3.10) Interpreter (z. B. `C:\Python312\python.exe` oder `/usr/bin/python3`). Bleibt standardmäßig leer für automatische Erkennung. |
 | `aiTokenTracker.servicePath` | `string` | `""` | Optionaler expliziter Pfad zur lokalen `ai-token-tracker`-Installation (Standard: automatische Erkennung über `~/.config/ai-token-tracker/install_path` oder das eingebettete VSIX-Backend). |
 | `aiTokenTracker.apiHost` | `string` | `"127.0.0.1"` | Host-Adresse des lokalen AI Token Tracker Daemons. |
 | `aiTokenTracker.apiPort` | `number` | `8787` | Port des lokalen AI Token Tracker Daemons. |
 | `aiTokenTracker.language` | `string` | `"en"` | Oberflächensprache der Extension und des Dashboards (`"en"` = Englisch als Standard, `"de"` = Deutsch). |
+
+---
+
+### Fehlerbehebung & Diagnose
+
+#### Statusleiste zeigt `AI Tracker: Offline`
+1. Klicken Sie auf das Statusleisten-Widget oder führen Sie `Ctrl+Shift+P` → **`AI Token Tracker: Hauptmenü & Paid-API-Steuerung öffnen`** aus, um den Start manuell anzustoßen.
+2. Führen Sie `Ctrl+Shift+P` → **`AI Token Tracker: Erweiterungs- & Daemon-Logs anzeigen`** aus (oder `View` → `Output` → **AI Token Tracker**), um die exakten Startprotokolle des Daemons einzusehen.
+
+#### Benachrichtigung: „Python 3.10+ is required“
+* Stellen Sie sicher, dass Python 3.10 oder neuer installiert ist ([python.org/downloads](https://www.python.org/downloads/)).
+* Unter Windows muss bei der Installation die Option **„Add Python to PATH“** aktiviert sein.
+* Wenn Sie Anaconda oder ein spezielles Virtualenv nutzen: `Ctrl+Shift+P` → **`AI Token Tracker: Python 3 Interpreter auswählen`** aufrufen und die Python-Datei auswählen.
+
+#### Port-Konflikt (Port 8787 bereits belegt)
+* Falls Port 8787 belegt ist, tragen Sie in den VS Code Einstellungen einfach einen anderen Port ein, z. B. `"aiTokenTracker.apiPort": 8788`. Die Extension und der Daemon binden sich automatisch an den konfigurierten Port.
 
 ---
 
@@ -483,7 +506,7 @@ ai-token-tracker/
 │   ├── package.json            # Extension-Manifest (Commands, Settings, Context-Keys)
 │   ├── extension.js            # StatusBar-Controller, Webview-Bridge & QuickPick-Workflows
 │   ├── build_vsix.py           # Zero-Dependency Open Packaging Conventions (.vsix) Builder
-│   └── ai-token-tracker-1.0.0.vsix
+│   └── ai-token-tracker-1.0.2.vsix
 ├── tests/
 │   ├── test_backend_e2e.py     # End-to-End Backend-, Proxy-, Tarif-, Sicherheits- & Isolationstests
 │   └── test_frontend_ui.mjs    # Statisches & Laufzeit-Audit (Modern Web APIs, WCAG/ARIA, JS-Syntax)
@@ -508,7 +531,7 @@ node tests/test_frontend_ui.mjs
 
 ```bash
 python3 vscode-extension/build_vsix.py
-# Erzeugt: vscode-extension/ai-token-tracker-1.0.0.vsix (inkl. eingebettetem Backend, Icon, LICENSE.md & README.md)
+# Erzeugt: vscode-extension/ai-token-tracker-1.0.2.vsix (inkl. eingebettetem Backend, Icon, LICENSE.md & README.md)
 ```
 
 ---
