@@ -1,10 +1,10 @@
 🌐 **Language:** **English** | [Deutsch](./README.de.md)
 
-# ⚡ AI Token & Cost Tracker v1.0.2
+# ⚡ AI Token & Cost Tracker v1.1.0
 
 **Multi-Provider LLM API Gateway, Per-Project Cost Accounting & IDE-Isolated Subscription Plan Analytics**
 
-[![Version](https://img.shields.io/badge/version-1.0.2-blue.svg)](#)
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](#)
 [![Python](https://img.shields.io/badge/python-%3E%3D3.10%20(stdlib%20only)-3776AB.svg)](#requirements--installation)
 [![VS Code Engine](https://img.shields.io/badge/vscode-%5E1.85.0-007ACC.svg)](#multi-ide-extension--command-palette)
 [![Dependencies](https://img.shields.io/badge/dependencies-zero%20(0%20pip%20%2F%200%20npm)-success.svg)](#project-structure-quality-assurance--marketplace-packaging)
@@ -52,7 +52,7 @@ Modern AI-assisted engineering combines **flat-rate IDE subscriptions** (e.g., A
 2. **Silent Overage & Auto-Fallback Traps:** Exhausting an included IDE quota can silently fall back to billable API keys, causing unexpected cost spikes.
 3. **Contaminated Analytics:** Mixing `$0.00` subscription tokens with billable API tokens distorts cost reporting and cache-efficiency metrics.
 
-**AI Token & Cost Tracker v1.0.2** solves this at the root via a local daemon (`http://127.0.0.1:8787`) with two strictly isolated ledgers:
+**AI Token & Cost Tracker v1.1.0** solves this at the root via a local daemon (`http://127.0.0.1:8787`) with two strictly isolated ledgers:
 
 | Capability | Ledger 1: Included IDE Plan (`panel-plan`) | Ledger 2: Paid Multi-Model API (`panel-paid`) |
 | :--- | :--- | :--- |
@@ -127,13 +127,14 @@ Both the IDE status bar item and the `/api/stats/plan` endpoint enforce strict t
   3. Idempotent **Cursor Dashboard Usage CSV Import** (UI modal or `tracker-cli import-cursor-csv`), deduplicating entries via SHA-256 signatures while automatically skipping `Usage-Based`, `On-Demand`, `Paid`, or `Overage` rows so Tab 1 remains strictly Included Plan.
 * **Isolation Guarantee:** Cursor never displays foreign Antigravity data.
 
-### Mode 3: API-Only IDEs (`vscode`, `vscodium`, `windsurf`, `jetbrains`)
-* **Tab 1 and the tab navigation bar are completely hidden (`has_plan: false`)** — even if Antigravity or Cursor are installed on the same machine.
-* `/api/stats/plan` returns `0` tokens (Zero Data Leakage).
-* The status bar and dashboard open directly into **Tab 2 (Paid Multi-Model API)**.
+### Mode 3: VS Code, VSCodium, Windsurf & Multi-Extension IDEs (`vscode`, `vscodium`, `windsurf`, `jetbrains`)
+* **Automatic AI Chat Extension Discovery (`vscode.extensions.all` + Local Session Adapters):**
+  * Automatically detects installed AI chat extensions and local session logs for **Google Antigravity** (`google.google-antigravity`), **GitHub Copilot Chat** (`github.copilot-chat` / `workspaceStorage/*/chatSessions`), **Anthropic Claude Code** (`anthropic.claude-code` / `~/.claude/projects`), **OpenAI Codex / ChatGPT** (`openai.chatgpt` / `~/.codex/sessions`), **Cline / Roo Code / Kilo Code** (`saoudrizwan.claude-dev`, `rooveterinaryinc.roo-cline`, `kilocode.kilo-code`), and **Continue.dev** (`continue.continue` / `~/.continue/sessions`).
+  * When one or more AI chat extensions are installed, **Tab 1 (`panel-plan`) is automatically unlocked** with both exact usage tokens (`is_estimated = 0`) and deterministic token estimation (`chars // 4`, `is_estimated = 1`, enabled by default) plus a switcher between **All Active AI Plans & Extensions (`all`)** and each individual extension.
+* **Bare API-Only Mode:** If no AI chat extension or local session log is present in the IDE, Tab 1 is hidden (`has_plan: false`) and the dashboard opens directly into **Tab 2 (Paid Multi-Model API)**.
 
 ### Mode 4: Standalone Web Browser (`http://127.0.0.1:8787`, `ide=browser`)
-* Displays an explicit **IDE Plan Source** switcher (`Antigravity IDE` vs. `Cursor IDE`) on Tab 1 when multiple Plan IDEs are installed on the host — **never** summing or mixing their ledgers — or automatically hides Tab 1 if no Plan IDE is present.
+* Displays an explicit **IDE Plan Source** switcher across all detected Plan IDEs and AI Chat Extensions on the host (including combined `All Active AI Plans & Extensions` view), or automatically hides Tab 1 if none are present.
 
 ---
 
@@ -212,7 +213,7 @@ The local reverse proxy (`tracker/proxy_handler.py`) transparently handles both 
 
 #### Option A: Install Self-Contained Extension (Marketplace / Open VSX / VSIX Release)
 1. **Via IDE Extensions View:** Search for **`AI Token & Cost Tracker`** (`VladyslavVitko.ai-token-cost-tracker`) in the VS Code Marketplace or Open VSX Registry (Cursor, Antigravity IDE, Windsurf, VSCodium).
-2. **Or via Direct VSIX Download:** Download [`ai-token-tracker-1.0.2.vsix`](https://github.com/Vladyslav-Vitko/ai-token-tracker/releases/latest) and run `Ctrl+Shift+P` → **`Extensions: Install from VSIX...`**. The extension includes the embedded Python backend and starts the local daemon (`127.0.0.1:8787`) automatically on IDE startup.
+2. **Or via Direct VSIX Download:** Download [`ai-token-tracker-1.1.0.vsix`](https://github.com/Vladyslav-Vitko/ai-token-tracker/releases/latest) and run `Ctrl+Shift+P` → **`Extensions: Install from VSIX...`**. The extension includes the embedded Python backend and starts the local daemon (`127.0.0.1:8787`) automatically on IDE startup.
 
 #### Option B: Standalone / Developer Service Installation (`./install.sh`)
 
@@ -228,7 +229,7 @@ The local reverse proxy (`tracker/proxy_handler.py`) transparently handles both 
    * Antigravity IDE: `~/.gemini/config/hooks.json` (`PostInvocation` & `Stop`) and sets `useG1Credits: false` in `~/.gemini/antigravity-cli/settings.json`.
    * Cursor IDE: `~/.cursor/hooks.json` (`stop` hook invoking `bin/cursor_plan_hook.py`).
 5. **Background Daemon Setup:** Configures and starts `~/.config/systemd/user/ai-token-tracker.service` on Linux/WSL2 (`systemctl --user enable --now`) or `~/Library/LaunchAgents/local.ai-token-tracker.plist` on macOS (`launchctl`) listening on `http://127.0.0.1:8787`.
-6. **Multi-IDE VSIX Packaging & Rollout:** Builds self-contained `vscode-extension/ai-token-tracker-1.0.2.vsix` using `build_vsix.py`, removes legacy installations if present, and installs the extension into all detected local and Remote/WSL IDEs (`antigravity-ide`, `cursor`, `code`, `code-insiders`, `codium`, `windsurf`, `~/.antigravity-ide-server`, `~/.cursor-server`, `~/.vscode-server`, `~/.windsurf-server`).
+6. **Multi-IDE VSIX Packaging & Rollout:** Builds self-contained `vscode-extension/ai-token-tracker-1.1.0.vsix` using `build_vsix.py`, removes legacy installations if present, and installs the extension into all detected local and Remote/WSL IDEs (`antigravity-ide`, `cursor`, `code`, `code-insiders`, `codium`, `windsurf`, `~/.antigravity-ide-server`, `~/.cursor-server`, `~/.vscode-server`, `~/.windsurf-server`).
 
 After installation, reload your IDE window once via `Ctrl+Shift+P` (or `Cmd+Shift+P`) → **`Developer: Reload Window`**.
 
@@ -505,7 +506,7 @@ ai-token-tracker/
 │   ├── package.json            # Extension manifest (commands, settings, context keys)
 │   ├── extension.js            # StatusBar controller, Webview bridge & QuickPick workflows
 │   ├── build_vsix.py           # Zero-dependency Open Packaging Conventions (.vsix) builder
-│   └── ai-token-tracker-1.0.2.vsix
+│   └── ai-token-tracker-1.1.0.vsix
 ├── tests/
 │   ├── test_backend_e2e.py     # End-to-end backend, proxy, pricing, security & isolation test suite
 │   └── test_frontend_ui.mjs    # Static & runtime audit (Modern Web APIs, WCAG/ARIA, JS syntax)
@@ -530,10 +531,10 @@ node tests/test_frontend_ui.mjs
 
 ```bash
 python3 vscode-extension/build_vsix.py
-# Outputs: vscode-extension/ai-token-tracker-1.0.2.vsix (with embedded backend, icon, LICENSE.md & README.md)
+# Outputs: vscode-extension/ai-token-tracker-1.1.0.vsix (with embedded backend, icon, LICENSE.md & README.md)
 ```
 
-The generated `vscode-extension/ai-token-tracker-1.0.2.vsix` archive conforms to the Open Packaging Conventions specification and is ready for direct installation (**`Extensions: Install from VSIX...`**) or publishing to the **VS Code Marketplace** and **Open VSX Registry**.
+The generated `vscode-extension/ai-token-tracker-1.1.0.vsix` archive conforms to the Open Packaging Conventions specification and is ready for direct installation (**`Extensions: Install from VSIX...`**) or publishing to the **VS Code Marketplace** and **Open VSX Registry**.
 
 ---
 
