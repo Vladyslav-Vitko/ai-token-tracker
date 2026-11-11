@@ -5,6 +5,23 @@ All notable changes to **AI Token & Cost Tracker** are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2] - 2026-11-11
+
+### Added
+- **licensing:** Introduce multi-tier subscriptions, background re-validation, and pricing selector.
+
+### Changed
+- **licensing, web:** Enforce UTC date bounds, badges, and add v1.1.1 changelog link.
+- **web:** Standardize API Console button and add dynamic green/gold license styling.
+- **ui, licensing:** Remove pseudo-quota labels, hide Pro badges for licensed tier, and elevate copy.
+- **web:** Refine Pro badge design, soften upgrade notices.
+- **vscode-ext:** Eliminate uppercase shouting and modernize status bar and dialog copywriting.
+- **web, changelog:** Elevate table empty states copy and align changelog version SSoT.
+- **web:** Modernize modal dialog copywriting and bilingual localization.
+- **web, docs:** Modernize dashboard copywriting, bilingual localization, and documentation formatting.
+- **vscode-ext:** Modernize quick pick menu copy and localization standards.
+
+
 ## [1.1.0] - 2026-11-09
 
 ### Added
@@ -49,6 +66,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Strict IDE-isolated Subscription Plan analytics (`$0.00` extra cost) for Antigravity IDE and Cursor IDE via lifecycle hooks, transcript ingestion, and Cursor CSV import.
 - Hardware-style Paid API safety switch (`LOCKED` by default), daily/monthly USD budget circuit breakers, and `chmod 0600` secret storage.
 - Adaptive WCAG 2.2 AA / WAI-ARIA Dual-Tab Web Dashboard (`<dialog>`, Popover API, CSS `@container` queries) with full English and German (`EN` / `DE`) localization.
+
+[1.1.2]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.1.0...v1.1.2
 
 [1.1.0]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.0.1...v1.0.2

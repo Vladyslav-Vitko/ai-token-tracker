@@ -13,7 +13,7 @@ Subject to the terms of this Agreement, **Vladyslav Vitko** ("Licensor") grants 
 1. **Included IDE Subscription Plan Analytics (`$0.00` Plan Ledger)** for Antigravity IDE and Cursor IDE.
 2. **Hardware-Style Paid API Safety Switch (`LOCKED` / `ARMED`)** and Daily/Monthly USD Budget Circuit Breakers (`HTTP 429`).
 3. **Built-in Multi-Provider Proxy & Cost Tracking** (Google Gemini, Anthropic Claude, OpenAI, OpenRouter) for up to **5 Paid API projects**, **2 custom providers**, **3 custom model pricing rules**, and **500 rows per Cursor Usage CSV import**.
-4. **JSON Statistics Export** and Integrated Paid API Test Console.
+4. **Integrated Paid API Test Console** and local dashboard visualization.
 
 ---
 
@@ -23,11 +23,11 @@ A valid **Pro** or **Team Commercial License Key** (purchased via Polar.sh, Lemo
 
 1. **Unlimited Paid API Client & Repository Projects** (`> 5` tracked projects).
 2. **Unlimited Custom Providers & Custom / Date-Scheduled Model Tariff Rules** (`> 2` custom providers / `> 3` custom model rules).
-3. **Client Invoicing & Tax Accounting CSV Exports** (`/api/export/plan.csv` and `/api/export/paid.csv`).
+3. **Client Invoicing & Tax Accounting Data Exports** (full UTF-8-BOM CSV and JSON exports: `/api/export/plan.csv`, `/api/export/paid.csv`, `/api/export/plan.json`, `/api/export/paid.json`).
 4. **Unlimited Bulk Cursor Dashboard Usage CSV Imports** (`> 500` rows per batch).
 5. **Commercial Multi-Seat / Agency Deployment** across client repositories.
 
-Upon activation of a valid Pro or Team License Key, the Licensor grants the Licensee a commercial license to use the unlocked Pro features according to the purchased tier (Personal Pro for 1 individual developer across up to 3 personal machines, or Team/Agency License up to the purchased seat count).
+Commercial licenses are offered as recurring subscriptions (**Monthly Pro**, **Annual Pro**) or one-time purchases (**Lifetime / Perpetual Pro**). Upon activation of a valid Pro or Team License Key, the Licensor grants the Licensee a commercial license to use the unlocked Pro features according to the purchased tier (Personal Pro for 1 individual developer across up to 3 personal machines, or Team/Agency License up to the purchased seat count). Recurring subscriptions automatically verify active billing status with the Merchant of Record with built-in offline grace periods.
 
 ---
 
@@ -43,7 +43,7 @@ Regardless of whether you use the Free Tier or a Paid Pro/Team License, you may 
 
 ## 4. Local-First Privacy & Data Sovereignty (GDPR / DSGVO)
 
-AI Token & Cost Tracker operates **100% locally** on your machine (`127.0.0.1:8787`). No prompts, LLM responses, API keys (`chmod 0600`), or project telemetry are ever transmitted to the Licensor. Only optional online license key activation requests are sent to the configured Merchant of Record (Polar.sh / Lemon Squeezy).
+AI Token & Cost Tracker operates **100% locally** on your machine (`127.0.0.1:8787`). No prompts, LLM responses, API keys (`chmod 0600`), or project telemetry are ever transmitted to the Licensor. Only optional online license key activation and subscription renewal verification requests are sent to the configured Merchant of Record (Polar.sh / Lemon Squeezy).
 
 ---
 
