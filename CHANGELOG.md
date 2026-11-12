@@ -5,6 +5,23 @@ All notable changes to **AI Token & Cost Tracker** are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3] - 2026-11-12
+
+### Added
+- Implement seamless update lifecycle and daemon version handshake.
+- Add transparent background auto-refresh and relocate transcript resync to settings.
+- **release:** Aggregate multiple commits of the same scope into nested changelog bullets.
+
+### Changed
+- **web:** Standardize symmetrical dropdown paddings and modern custom chevrons.
+
+### Fixed
+- Remove accidental stray character before doctype in index.html.
+
+### Documentation
+- Audit technical accuracy and synchronize CLI and API references.
+- **agents:** Canonize automated conventional commits changelog workflow.
+
 ## [1.1.2] - 2026-11-11
 
 ### Added
@@ -67,6 +84,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Hardware-style Paid API safety switch (`LOCKED` by default), daily/monthly USD budget circuit breakers, and `chmod 0600` secret storage.
 - Adaptive WCAG 2.2 AA / WAI-ARIA Dual-Tab Web Dashboard (`<dialog>`, Popover API, CSS `@container` queries) with full English and German (`EN` / `DE`) localization.
 
+[1.1.3]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.1.0...v1.1.2
 
 [1.1.0]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.0.2...v1.1.0

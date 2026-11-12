@@ -1,10 +1,10 @@
 🌐 **Language:** [English](./README.md) | **Deutsch**
 
-# ⚡ AI Token & Cost Tracker v1.1.2
+# ⚡ AI Token & Cost Tracker v1.1.3
 
 **Multi-Provider LLM API Gateway, projektgenaue Kostenabrechnung & IDE-isolierte Abo-Plan-Analytik**
 
-[![Version](https://img.shields.io/badge/version-1.1.2-blue.svg)](#)
+[![Version](https://img.shields.io/badge/version-1.1.3-blue.svg)](#)
 [![Python](<https://img.shields.io/badge/python-%3E%3D3.10%20(stdlib%20only)-3776AB.svg>)](#voraussetzungen--installation)
 [![VS Code Engine](https://img.shields.io/badge/vscode-%5E1.85.0-007ACC.svg)](#multi-ide-extension--command-palette)
 [![Dependencies](<https://img.shields.io/badge/dependencies-zero%20(0%20pip%20%2F%200%20npm)-success.svg>)](#projektstruktur-qualitaetssicherung--marketplace-build)
@@ -53,7 +53,7 @@ Moderne KI-gestützte Softwareentwicklung nutzt parallel **inkludierte IDE-Abonn
 2. **Kostenfallen durch stillen Fallback:** Das unbeabsichtigte Umschalten von einem erschöpften Inklusiv-Abo auf einen hinterlegten API-Key verursacht unkontrollierte Kosten.
 3. **Kontaminierte Metriken:** Inkludierte Abo-Tokens (`$0.00` Zusatzkosten) und kostenpflichtige API-Requests (`$` / `€`) werden in herkömmlichen Tools vermischt.
 
-**AI Token & Cost Tracker v1.1.2** löst diese Anforderungen durch eine lokal auf `127.0.0.1:8787` laufende **Dual-Ledger-Architektur**:
+**AI Token & Cost Tracker v1.1.3** löst diese Anforderungen durch eine lokal auf `127.0.0.1:8787` laufende **Dual-Ledger-Architektur**:
 
 | Merkmal               | Ledger 1: Inkludierter IDE-Plan (`panel-plan`)                                           | Ledger 2: Paid Multi-Model API (`panel-paid`)                                                                    |
 | :-------------------- | :--------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------- |
@@ -225,7 +225,7 @@ Der lokale Reverse Proxy (`tracker/proxy_handler.py`) unterstützt sowohl synchr
 #### Option A: Autonome IDE-Extension installieren (Marketplace / Open VSX / VSIX-Release)
 
 1. **Über die IDE-Extensions-Ansicht:** Suchen Sie nach **`AI Token & Cost Tracker`** (`VladyslavVitko.ai-token-cost-tracker`) im VS Code Marketplace oder in der Open VSX Registry (Cursor, Antigravity IDE, Windsurf, VSCodium).
-2. **Oder per direktem VSIX-Download:** Laden Sie [`ai-token-tracker-1.1.2.vsix`](https://github.com/Vladyslav-Vitko/ai-token-tracker/releases/latest) herunter und wählen Sie `Ctrl+Shift+P` → **`Extensions: Install from VSIX...`**. Die Extension enthält das eingebettete Python-Backend und startet den lokalen Daemon (`127.0.0.1:8787`) automatisch beim IDE-Start.
+2. **Oder per direktem VSIX-Download:** Laden Sie [`ai-token-tracker-1.1.3.vsix`](https://github.com/Vladyslav-Vitko/ai-token-tracker/releases/latest) herunter und wählen Sie `Ctrl+Shift+P` → **`Extensions: Install from VSIX...`**. Die Extension enthält das eingebettete Python-Backend und startet den lokalen Daemon (`127.0.0.1:8787`) automatisch beim IDE-Start.
 
 #### Option B: Standalone- / Entwickler-Service-Installation (`./install.sh`)
 
@@ -242,7 +242,7 @@ Der lokale Reverse Proxy (`tracker/proxy_handler.py`) unterstützt sowohl synchr
    - Antigravity IDE: `~/.gemini/config/hooks.json` (`PostInvocation` & `Stop`) sowie `useG1Credits: false` in `~/.gemini/antigravity-cli/settings.json`.
    - Cursor IDE: `~/.cursor/hooks.json` (`stop`-Hook auf `bin/cursor_plan_hook.py`).
 5. **Hintergrund-Daemon:** Richtet unter Linux/WSL2 den User-Service `~/.config/systemd/user/ai-token-tracker.service` (`systemctl --user enable --now`) bzw. unter macOS den LaunchAgent `~/Library/LaunchAgents/local.ai-token-tracker.plist` auf `http://127.0.0.1:8787` ein.
-6. **Multi-IDE VSIX-Build & Rollout:** Paketiert `vscode-extension/ai-token-tracker-1.1.2.vsix` ohne externe Build-Tools (`build_vsix.py`), entfernt etwaige Altinstallationen und installiert die Extension automatisch in alle erkannten lokalen sowie Remote-/WSL-IDEs (`antigravity-ide`, `cursor`, `code`, `code-insiders`, `codium`, `windsurf`, `~/.antigravity-ide-server`, `~/.cursor-server`, `~/.vscode-server`, `~/.windsurf-server`).
+6. **Multi-IDE VSIX-Build & Rollout:** Paketiert `vscode-extension/ai-token-tracker-1.1.3.vsix` ohne externe Build-Tools (`build_vsix.py`), entfernt etwaige Altinstallationen und installiert die Extension automatisch in alle erkannten lokalen sowie Remote-/WSL-IDEs (`antigravity-ide`, `cursor`, `code`, `code-insiders`, `codium`, `windsurf`, `~/.antigravity-ide-server`, `~/.cursor-server`, `~/.vscode-server`, `~/.windsurf-server`).
 
 Führen Sie anschließend in Ihrer IDE einmalig `Ctrl+Shift+P` (bzw. `Cmd+Shift+P`) → **`Developer: Reload Window`** aus.
 
@@ -273,24 +273,32 @@ Nach der Installation erscheint in der rechten unteren Statusleiste Ihrer IDE da
 | `aiTokenTracker.manageLicense`     | **AI Token Tracker: Lizenz & Pro-Edition verwalten**                          | Verwaltet die kostenlose Community Edition sowie die Aktivierung von Pro-/Team-Lizenzschlüsseln (Polar.sh, Lemon Squeezy, Offline `AITT1-*`).   |
 | `aiTokenTracker.selectPython`      | **AI Token Tracker: Python 3 Interpreter auswählen**                          | Dateiauswahl-Dialog zum manuellen Festlegen einer Python 3.10+ Binary (aktualisiert `aiTokenTracker.pythonPath`).                               |
 | `aiTokenTracker.showLogs`          | **AI Token Tracker: Erweiterungs- & Daemon-Logs anzeigen**                    | Öffnet das dedizierte VS Code Output-Fenster (`View` → `Output` → `AI Token Tracker`) zur Live-Diagnose.                                        |
+| `aiTokenTracker.checkForUpdates`   | **AI Token Tracker: Nach Updates suchen & neue Version laden**                | Prüft Open VSX / VS Marketplace auf Updates, erkennt heruntergeladene Pakete und bietet einen sofortigen Neuladungsprompt an.                  |
 
 ### Extension-Einstellungen (`settings.json` der IDE)
 
-| Einstellung                  | Typ      | Standardwert  | Beschreibung                                                                                                                                                                                 |
-| :--------------------------- | :------- | :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `aiTokenTracker.pythonPath`  | `string` | `""`          | Optionaler expliziter Pfad zum Python 3 (>= 3.10) Interpreter (z. B. `C:\Python312\python.exe` oder `/usr/bin/python3`). Bleibt standardmäßig leer für automatische Erkennung.               |
-| `aiTokenTracker.servicePath` | `string` | `""`          | Optionaler expliziter Pfad zur lokalen `ai-token-tracker`-Installation (Standard: automatische Erkennung über `~/.config/ai-token-tracker/install_path` oder das eingebettete VSIX-Backend). |
-| `aiTokenTracker.apiHost`     | `string` | `"127.0.0.1"` | Host-Adresse des lokalen AI Token Tracker Daemons.                                                                                                                                           |
-| `aiTokenTracker.apiPort`     | `number` | `8787`        | Port des lokalen AI Token Tracker Daemons.                                                                                                                                                   |
-| `aiTokenTracker.language`    | `string` | `"en"`        | Oberflächensprache der Extension und des Dashboards (`"en"` = Englisch als Standard, `"de"` = Deutsch).                                                                                      |
+| Einstellung                          | Typ       | Standardwert  | Beschreibung                                                                                                                                                                                 |
+| :----------------------------------- | :-------- | :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `aiTokenTracker.pythonPath`          | `string`  | `""`          | Optionaler expliziter Pfad zum Python 3 (>= 3.10) Interpreter (z. B. `C:\Python312\python.exe` oder `/usr/bin/python3`). Bleibt standardmäßig leer für automatische Erkennung.               |
+| `aiTokenTracker.servicePath`         | `string`  | `""`          | Optionaler expliziter Pfad zur lokalen `ai-token-tracker`-Installation (Standard: automatische Erkennung über `~/.config/ai-token-tracker/install_path` oder das eingebettete VSIX-Backend). |
+| `aiTokenTracker.apiHost`             | `string`  | `"127.0.0.1"` | Host-Adresse des lokalen AI Token Tracker Daemons.                                                                                                                                           |
+| `aiTokenTracker.apiPort`             | `number`  | `8787`        | Port des lokalen AI Token Tracker Daemons.                                                                                                                                                   |
+| `aiTokenTracker.language`            | `string`  | `"en"`        | Oberflächensprache der Extension und des Dashboards (`"en"` = Englisch als Standard, `"de"` = Deutsch).                                                                                      |
+| `aiTokenTracker.updateNotifications` | `boolean` | `true`        | Benachrichtigungen anzeigen, wenn eine neue Version von AI Token & Cost Tracker zum Neuladen bereitsteht oder aktualisiert wurde.                                                             |
 
 ---
 
 ### Fehlerbehebung & Diagnose
 
+#### Extension-Updates & automatischer Update-Lebenszyklus
+
+- **Automatische Galerie-Updates:** VS Code und Open VSX-kompatible IDEs prüfen in regelmäßigen Intervallen (ca. alle 12 Stunden sowie beim Start eines Editor-Fensters) auf Updates. Sobald eine neue Version im Hintergrund heruntergeladen wurde, erscheint ein dezenter Hinweis mit der Option zum Neuladen des Fensters oder Extension Hosts (`workbench.action.restartExtensionHost`), sodass neue Menüs und Funktionen sofort aktiv werden.
+- **Manuelle Update-Prüfung:** Führen Sie `Ctrl+Shift+P` → **`AI Token Tracker: Nach Updates suchen & neue Version laden`** aus (oder wählen Sie **Nach Updates suchen** im Hauptmenü), um die Galerie direkt abzufragen und die Erweiterungsansicht zu öffnen.
+- **Pinned VSIX vs. Galerie-Installationen:** Erweiterungen, die direkt aus einer lokalen `.vsix`-Datei installiert wurden, markiert VS Code als `pinned` (festgepinnt). Sie erhalten keine automatischen Updates aus der Galerie. Um die Erweiterung direkt aus der Galerie mit aktivierten Auto-Updates zu installieren, verwenden Sie `./install.sh --marketplace`.
+
 #### Statusleiste zeigt `AI Tracker: Offline`
 
-1. Klicken Sie auf das Statusleisten-Widget oder führen Sie `Ctrl+Shift+P` → **`AI Token Tracker: Hauptmenü & Paid-API-Steuerung öffnen`** aus, um den Start manuell anzustoßen.
+1. Klicken Sie auf das Statusleisten-Widget oder führen Sie `Ctrl+Shift+P` → **`AI Token Tracker: Hauptmenü & Schnellsteuerung öffnen`** aus, um den Start manuell anzustoßen.
 2. Führen Sie `Ctrl+Shift+P` → **`AI Token Tracker: Erweiterungs- & Daemon-Logs anzeigen`** aus (oder `View` → `Output` → **AI Token Tracker**), um die exakten Startprotokolle des Daemons einzusehen.
 
 #### Benachrichtigung: „Python 3.10+ is required“
@@ -361,8 +369,9 @@ tracker-cli report --ledger plan --ide antigravity --period week
 tracker-cli report --ledger plan --ide cursor --period month_cycle
 tracker-cli report --ledger paid --period month --provider all
 
-# Lizenzstatus prüfen sowie Pro-/Team-Lizenzschlüssel aktivieren oder deaktivieren
+# Lizenzstatus prüfen, online aktualisieren sowie Pro-/Team-Lizenzschlüssel aktivieren oder deaktivieren
 tracker-cli license
+tracker-cli license --refresh
 tracker-cli activate AITT1-PRO-PERPETUAL-...
 tracker-cli deactivate
 ```
@@ -452,6 +461,7 @@ Das unter `http://127.0.0.1:8787` sowie als natives VS-Code-Webview verfügbare 
   - **HTML `<dialog>` Element:** 7 native modale Dialoge (Modell-Tarifregel-Editor, Provider- & Key-Verwaltung, Einstellungen & Sicherheitslimits, API-Testkonsole, API-Einzelabrechnung, Cursor Usage-CSV-Import, Lizenz- & Editionsverwaltung).
   - **Native Popover API (`popover="auto"`, `popovertarget`):** Deklarative Popover-Menüs für lokale Proxy-Endpunkte und CSV-/JSON-Datenexporte ohne JavaScript-Focus-Trap-Overhead.
   - **CSS Container Queries (`container-type: inline-size`):** Adaptive Layouts (`@container kpi-area`, `@container charts-area`, `@container providers-area`), die sich nahtlos an schmale IDE-Split-Views und breite Browser-Monitore anpassen.
+  - **Nahtloser Auto-Refresh:** Transparente Hintergrund-Aktualisierung bei Fensterfokus (`visibilitychange` / `window.focus`) und 30-Sekunden-Soft-Polling halten die Token-Zahlen automatisch auf dem neuesten Stand, während Sie in der IDE arbeiten.
 - **Strikte Barrierefreiheit (WCAG 2.2 AA & WAI-ARIA):**
   - Vollständige Tastaturnavigation inkl. `.skip-link` (_„Zum Hauptinhalt springen"_), sichtbaren `:focus-visible`-Ringen und Pfeiltasten-Steuerung in der WAI-ARIA `role="tablist"`.
   - Live-Statusansagen über `aria-live="polite"` (`#live-announcer`) bei Filterwechseln, Synchronisationen und Schutzschalter-Aktionen.
@@ -483,7 +493,9 @@ Das unter `http://127.0.0.1:8787` sowie als natives VS-Code-Webview verfügbare 
 | `POST`  | `/api/plan/cursor/import-csv`                                     | Importiert und dedupliziert offizielle Cursor Usage-CSV-Exporte für den Cursor Monats-Plan.                                    |
 | `POST`  | `/api/playground/chat`                                            | Führt einen expliziten Test-Prompt über den lokalen Tracking-Proxy aus (inkl. Token- & Kosten-Beleg).                          |
 | `GET`   | `/api/license/status`                                             | Liefert die aktuelle Lizenzstufe (`free`, `pro`, `team`), Freischaltungen (`entitlements`) und den maskierten Schlüsselstatus. |
+| `POST`  | `/api/license/refresh`                                            | Prüft den aktiven Abostatus online beim Merchant (Polar.sh / Lemon Squeezy) und aktualisiert Kulanzfristen.                  |
 | `POST`  | `/api/license/activate` / `/api/license/deactivate`               | Aktiviert oder deaktiviert einen kommerziellen Pro-/Team-Lizenzschlüssel (Polar.sh, Lemon Squeezy oder Offline `AITT1-*`).     |
+| `POST`  | `/api/admin/shutdown`                                             | Beendet den lokalen Daemon-Prozess sauber für Versions-Upgrades (nur für lokale IDE-Erweiterungen; weist Origin ab).          |
 
 ### 11.2 SQLite-Tabellen (`data/usage.sqlite3` im WAL-Modus)
 
@@ -529,7 +541,7 @@ ai-token-tracker/
 │   ├── package.json            # Extension-Manifest (Commands, Settings, Context-Keys)
 │   ├── extension.js            # StatusBar-Controller, Webview-Bridge & QuickPick-Workflows
 │   ├── build_vsix.py           # Zero-Dependency Open Packaging Conventions (.vsix) Builder
-│   └── ai-token-tracker-1.1.2.vsix
+│   └── ai-token-tracker-1.1.3.vsix
 ├── tests/
 │   ├── test_backend_e2e.py     # End-to-End Backend-, Proxy-, Tarif-, Sicherheits- & Isolationstests
 │   └── test_frontend_ui.mjs    # Statisches & Laufzeit-Audit (Modern Web APIs, WCAG/ARIA, JS-Syntax)
@@ -554,7 +566,7 @@ node tests/test_frontend_ui.mjs
 
 ```bash
 python3 vscode-extension/build_vsix.py
-# Erzeugt: vscode-extension/ai-token-tracker-1.1.2.vsix (inkl. eingebettetem Backend, Icon, LICENSE.md & README.md)
+# Erzeugt: vscode-extension/ai-token-tracker-1.1.3.vsix (inkl. eingebettetem Backend, Icon, LICENSE.md & README.md)
 ```
 
 ---
