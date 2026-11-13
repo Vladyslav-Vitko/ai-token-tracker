@@ -5,6 +5,21 @@ All notable changes to **AI Token & Cost Tracker** are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4] - 2026-11-13
+
+### Added
+- **multi-ide:** Unify browser mixed-cycle analytics, detached shared daemon, and 30s pluginless IDE sync.
+
+### Changed
+- **ui:**
+  - Unify Endpoints & Keys into native modal dialog and anchor export popovers.
+  - Deduplicate Paid API model and provider action buttons.
+- **web:** Replace Copy button label with copy icon in endpoints popover.
+
+### Fixed
+- **ui, licensing:** Eliminate dead controls, enforce Free quotas, and upgrade license/endpoint UX.
+- **licensing:** Enforce Free-tier quotas consistently across settings, proxy, CLI, and UI.
+
 ## [1.1.3] - 2026-11-12
 
 ### Added
@@ -84,6 +99,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Hardware-style Paid API safety switch (`LOCKED` by default), daily/monthly USD budget circuit breakers, and `chmod 0600` secret storage.
 - Adaptive WCAG 2.2 AA / WAI-ARIA Dual-Tab Web Dashboard (`<dialog>`, Popover API, CSS `@container` queries) with full English and German (`EN` / `DE`) localization.
 
+[1.1.4]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.1.0...v1.1.2
 
