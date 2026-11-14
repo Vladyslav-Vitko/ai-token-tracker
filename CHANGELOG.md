@@ -5,6 +5,18 @@ All notable changes to **AI Token & Cost Tracker** are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.5] - 2026-11-15
+
+### Added
+- **pricing:** Update default paid API models to latest flagship catalog.
+
+### Changed
+- **ui:** Stretch SVG charts and source grids to full container width.
+
+### Fixed
+- **models:** Protect built-in pricing rules from deletion and auto-heal missing catalog defaults.
+- **ingestor:** Resolve zero-token multi-IDE telemetry across Copilot JSONL deltas, Antigravity fallbacks, and all AI chat adapters.
+
 ## [1.1.4] - 2026-11-13
 
 ### Added
@@ -99,6 +111,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Hardware-style Paid API safety switch (`LOCKED` by default), daily/monthly USD budget circuit breakers, and `chmod 0600` secret storage.
 - Adaptive WCAG 2.2 AA / WAI-ARIA Dual-Tab Web Dashboard (`<dialog>`, Popover API, CSS `@container` queries) with full English and German (`EN` / `DE`) localization.
 
+[1.1.5]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.1.4...v1.1.5
 [1.1.4]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.1.0...v1.1.2

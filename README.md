@@ -1,10 +1,10 @@
 🌐 **Language:** **English** | [Deutsch](./README.de.md)
 
-# ⚡ AI Token & Cost Tracker v1.1.4
+# ⚡ AI Token & Cost Tracker v1.1.5
 
 **Multi-Provider LLM API Gateway, Per-Project Cost Accounting & IDE-Isolated Subscription Plan Analytics**
 
-[![Version](https://img.shields.io/badge/version-1.1.4-blue.svg)](#)
+[![Version](https://img.shields.io/badge/version-1.1.5-blue.svg)](#)
 [![Python](<https://img.shields.io/badge/python-%3E%3D3.10%20(stdlib%20only)-3776AB.svg>)](#requirements--installation)
 [![VS Code Engine](https://img.shields.io/badge/vscode-%5E1.85.0-007ACC.svg)](#multi-ide-extension--command-palette)
 [![Dependencies](<https://img.shields.io/badge/dependencies-zero%20(0%20pip%20%2F%200%20npm)-success.svg>)](#project-structure-quality-assurance--marketplace-packaging)
@@ -53,7 +53,7 @@ Modern AI-assisted engineering combines **flat-rate IDE subscriptions** (e.g., A
 2. **Silent Overage & Auto-Fallback Traps:** Exhausting an included IDE quota can silently fall back to billable API keys, causing unexpected cost spikes.
 3. **Contaminated Analytics:** Mixing `$0.00` subscription tokens with billable API tokens distorts cost reporting and cache-efficiency metrics.
 
-**AI Token & Cost Tracker v1.1.4** solves this at the root via a local daemon (`http://127.0.0.1:8787`) with two strictly isolated ledgers:
+**AI Token & Cost Tracker v1.1.5** solves this at the root via a local daemon (`http://127.0.0.1:8787`) with two strictly isolated ledgers:
 
 | Capability          | Ledger 1: Included IDE Plan (`panel-plan`)                                                         | Ledger 2: Paid Multi-Model API (`panel-paid`)                                                                |
 | :------------------ | :------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------- |
@@ -120,22 +120,22 @@ Both the IDE status bar item and the `/api/stats/plan` endpoint enforce strict t
 
 ### Mode 1: Antigravity IDE (`ide=antigravity`)
 
-- **Tab 1 — Included Weekly Plan (`$0.00`)**: Evaluates local Antigravity conversation transcripts (`~/.gemini/antigravity/brain/*/.system_generated/logs/transcript.jsonl` and `~/.gemini/antigravity-ide/brain/...`). Captures exact `input_tokens`, `cache_read_tokens`, and `output_tokens` per project and model, plus theoretical API value saved.
+- **Tab 1 — Included Weekly Plan (`$0.00`)**: Evaluates local Antigravity conversation transcripts (`~/.gemini/antigravity/brain/*/.system_generated/logs/transcript.jsonl` & `transcript_full.jsonl`, `~/.gemini/antigravity-ide/brain/...`, step-output fallbacks in `.system_generated/steps/`, and `conversations/*.pb` fallback) plus the auto-registered fail-open lifecycle hook (`bin/agy_plan_hook.py`). Captures exact and estimated `input_tokens`, `cache_read_tokens`, and `output_tokens` per project and model, plus theoretical API value saved.
 - **Tab 2 — Paid Multi-Provider API (`$` / `€`)**: Full multi-provider cost accounting and model registry.
 
 ### Mode 2: Cursor IDE (`ide=cursor`)
 
 - **Tab 1 — Included Monthly Plan (`$0.00`)**: Aligned with Cursor's monthly billing cycle (`month_cycle`, configurable reset day via `cursor_monthly_reset_day`) and Cursor subscription models (`claude-*`, `gpt-*`, `gemini-*`).
 - **Three Sanctioned Clean-Code Data Sources (Zero `state.vscdb` JWT Scraping):**
-  1. Official Cursor lifecycle hook (`~/.cursor/hooks.json` → `stop` → `bin/cursor_plan_hook.py`).
-  2. Local Cursor agent transcripts (`~/.cursor/projects/*/agent-transcripts/*.jsonl`) with automatic workspace slug resolution (`resolve_project_from_cursor_slug`).
+  1. Official Cursor lifecycle hook (`~/.cursor/hooks.json` → `stop` → `bin/cursor_plan_hook.py`, auto-registered idempotently).
+  2. Local Cursor agent transcripts (`~/.cursor/projects/*/agent-transcripts/*.{jsonl,txt,json}`) with automatic workspace slug resolution (`resolve_project_from_cursor_slug`).
   3. Idempotent **Cursor Dashboard Usage CSV Import** (UI modal or `tracker-cli import-cursor-csv`), deduplicating entries via SHA-256 signatures while automatically skipping `Usage-Based`, `On-Demand`, `Paid`, or `Overage` rows so Tab 1 remains strictly Included Plan.
 - **Isolation Guarantee:** Cursor never displays foreign Antigravity data.
 
 ### Mode 3: VS Code, VSCodium, Windsurf & Multi-Extension IDEs (`vscode`, `vscodium`, `windsurf`, `jetbrains`)
 
-- **Automatic AI Chat Extension Discovery (`vscode.extensions.all` + Local Session Adapters):**
-  - Automatically detects installed AI chat extensions and local session logs for **Google Antigravity** (`google.google-antigravity`), **GitHub Copilot Chat** (`github.copilot-chat` / `workspaceStorage/*/chatSessions`), **Anthropic Claude Code** (`anthropic.claude-code` / `~/.claude/projects`), **OpenAI Codex / ChatGPT** (`openai.chatgpt` / `~/.codex/sessions`), **Cline / Roo Code / Kilo Code** (`saoudrizwan.claude-dev`, `rooveterinaryinc.roo-cline`, `kilocode.kilo-code`), and **Continue.dev** (`continue.continue` / `~/.continue/sessions`).
+- **Automatic AI Chat Extension Discovery (`vscode.extensions.all` + Local Session Adapters + VS Code Profiles + WSL/Windows Path Bridging):**
+  - Automatically detects installed AI chat extensions and local session logs across default and custom VS Code Profiles (`User/profiles/*`) for **Google Antigravity** (`google.google-antigravity`), **GitHub Copilot Chat** (`github.copilot-chat` / `workspaceStorage/*/chatSessions/*.{json,jsonl}` ObjectMutationLog delta streams, `chatEditingSessions/*/state.json`, `emptyWindowChatSessions`, and read-only `state.vscdb` session fallback), **Anthropic Claude Code** (`anthropic.claude-code` / `~/.claude/projects`), **OpenAI Codex / ChatGPT** (`openai.chatgpt` / `~/.codex/sessions` rollout & `token_count` events), **Cline / Roo Code / Kilo Code** (`saoudrizwan.claude-dev`, `rooveterinaryinc.roo-cline`, `kilocode.kilo-code`), and **Continue.dev** (`continue.continue` / `~/.continue/sessions`).
   - When one or more AI chat extensions are installed, **Tab 1 (`panel-plan`) is automatically unlocked** with both exact usage tokens (`is_estimated = 0`) and deterministic token estimation (`chars // 4`, `is_estimated = 1`, enabled by default) plus a switcher between **All Active AI Plans & Extensions (`all`)** and each individual extension.
 - **Bare API-Only Mode:** If no AI chat extension or local session log is present in the IDE, Tab 1 is hidden (`has_plan: false`) and the dashboard opens directly into **Tab 2 (Paid Multi-Provider API)**.
 
@@ -193,22 +193,26 @@ The local reverse proxy (`tracker/proxy_handler.py`) transparently handles both 
 
 ### Built-in Model Pricing Schedule (`config/settings.default.json`)
 
-| Provider    | Model Pattern          | Display Label             | Input / 1M | Cache Write / 1M | Cache Read / 1M | Output / 1M | Thinking / 1M | Validity                    |
-| :---------- | :--------------------- | :------------------------ | ---------: | ---------------: | --------------: | ----------: | ------------: | :-------------------------- |
-| `gemini`    | `gemini-4-argon*`      | Gemini 4 Argon (Promo)    |    `$2.00` |          `$0.00` |         `$0.10` |    `$10.00` |      `$10.00` | `2026-01-01` – `2026-11-30` |
-| `gemini`    | `gemini-4-argon*`      | Gemini 4 Argon (Standard) |    `$4.00` |          `$0.00` |         `$0.20` |    `$20.00` |      `$20.00` | from `2026-12-01`           |
-| `gemini`    | `gemini-3*pro*`        | Gemini 3.1 Pro            |    `$2.00` |          `$0.00` |         `$0.20` |    `$12.00` |      `$12.00` | Always                      |
-| `gemini`    | `gemini-3*flash*`      | Gemini 3.1 Flash          |    `$0.30` |          `$0.00` |         `$0.03` |     `$2.50` |       `$2.50` | Always                      |
-| `gemini`    | `gemini-3*flash-lite*` | Gemini 3.1 Flash-Lite     |    `$0.25` |          `$0.00` |        `$0.025` |     `$1.50` |       `$1.50` | Always                      |
-| `anthropic` | `claude-*opus*`        | Claude Opus 4.6           |    `$5.00` |          `$6.25` |         `$0.50` |    `$25.00` |      `$25.00` | Always                      |
-| `anthropic` | `claude-*sonnet*`      | Claude Sonnet 4.6         |    `$3.00` |          `$3.75` |         `$0.30` |    `$15.00` |      `$15.00` | Always                      |
-| `anthropic` | `claude-*haiku*`       | Claude Haiku 4.5          |    `$1.00` |          `$1.25` |         `$0.10` |     `$5.00` |       `$5.00` | Always                      |
-| `openai`    | `gpt-5.4*`             | OpenAI GPT-5.4            |    `$2.50` |          `$0.00` |         `$0.25` |    `$15.00` |      `$15.00` | Always                      |
-| `openai`    | `gpt-5*mini*`          | OpenAI GPT-5.4 Mini       |    `$0.75` |          `$0.00` |        `$0.075` |     `$4.50` |       `$4.50` | Always                      |
-| `openai`    | `gpt-5*nano*`          | OpenAI GPT-5.4 Nano       |    `$0.20` |          `$0.00` |         `$0.02` |     `$1.25` |       `$1.25` | Always                      |
-| `openai`    | `gpt-5.2*`             | OpenAI GPT-5.2            |    `$1.75` |          `$0.00` |        `$0.175` |    `$14.00` |      `$14.00` | Always                      |
-| `openai`    | `gpt-5*`               | OpenAI GPT-5              |    `$1.25` |          `$0.00` |        `$0.125` |    `$10.00` |      `$10.00` | Always                      |
-| `*`         | `*`                    | Fallback Default Tariff   |    `$2.00` |          `$0.00` |         `$0.20` |    `$10.00` |      `$10.00` | Fallback                    |
+| Provider     | Model Pattern            | Display Label               | Input / 1M | Cache Write / 1M | Cache Read / 1M | Output / 1M | Thinking / 1M | Validity                    |
+| :----------- | :----------------------- | :-------------------------- | ---------: | ---------------: | --------------: | ----------: | ------------: | :-------------------------- |
+| `gemini`     | `gemini-4-carbon*`       | Gemini 4 Carbon (Promo)     |    `$2.00` |          `$0.00` |         `$0.10` |    `$10.00` |      `$10.00` | `2026-01-01` – `2026-11-30` |
+| `gemini`     | `gemini-4-carbon*`       | Gemini 4 Carbon (Standard)  |    `$4.00` |          `$0.00` |         `$0.20` |    `$20.00` |      `$20.00` | from `2026-12-01`           |
+| `gemini`     | `gemini-4-argon*`        | Gemini 4 Argon (Promo)      |    `$2.00` |          `$0.00` |         `$0.10` |    `$10.00` |      `$10.00` | `2026-01-01` – `2026-11-30` |
+| `gemini`     | `gemini-4-argon*`        | Gemini 4 Argon (Standard)   |    `$4.00` |          `$0.00` |         `$0.20` |    `$20.00` |      `$20.00` | from `2026-12-01`           |
+| `gemini`     | `gemini-4-hydrogen*`     | Gemini 4 Hydrogen (Flash)   |    `$1.50` |          `$0.00` |        `$0.075` |     `$7.50` |       `$7.50` | Always                      |
+| `gemini`     | `gemini-3*flash*`        | Gemini 3.8 Flash            |    `$0.75` |          `$0.00` |        `$0.075` |     `$3.75` |       `$3.75` | Always                      |
+| `gemini`     | `gemini-3*flash-lite*`   | Gemini 3.5 Flash-Lite       |    `$0.30` |          `$0.00` |         `$0.03` |     `$2.50` |       `$2.50` | Always                      |
+| `anthropic`  | `claude-*fable*`         | Claude Fable 5.2            |    `$8.00` |         `$10.00` |         `$0.20` |    `$40.00` |      `$40.00` | Always                      |
+| `anthropic`  | `claude-*opus*`          | Claude Opus 5.5             |    `$4.00` |          `$5.00` |         `$0.20` |    `$20.00` |      `$20.00` | Always                      |
+| `anthropic`  | `claude-*sonnet*`        | Claude Sonnet 5.5           |    `$2.00` |          `$2.50` |         `$0.10` |    `$10.00` |      `$10.00` | Always                      |
+| `anthropic`  | `claude-*haiku*`         | Claude Haiku 5.5            |    `$0.10` |         `$0.125` |         `$0.01` |     `$0.50` |       `$0.50` | Always                      |
+| `openai`     | `gpt-6*astra*`           | OpenAI GPT-6 Astra          |   `$10.00` |          `$0.00` |         `$1.00` |    `$50.00` |      `$50.00` | Always                      |
+| `openai`     | `gpt-6*sol*`             | OpenAI GPT-6.1 Sol          |    `$2.00` |          `$0.00` |         `$0.10` |    `$10.00` |      `$10.00` | Always                      |
+| `openai`     | `gpt-6*terra*`           | OpenAI GPT-6.1 Terra        |    `$1.00` |          `$0.00` |         `$0.05` |     `$5.00` |       `$5.00` | Always                      |
+| `openai`     | `gpt-6*luna*`            | OpenAI GPT-6 Luna           |    `$0.10` |          `$0.00` |         `$0.01` |     `$0.50` |       `$0.50` | Always                      |
+| `openai`     | `gpt-5*`                 | OpenAI GPT-5.4              |    `$2.50` |          `$0.00` |         `$0.25` |    `$15.00` |      `$15.00` | Always                      |
+| `openrouter` | `deepseek/deepseek-v4*`  | DeepSeek V4 Pro             |    `$0.66` |          `$0.00` |        `$0.022` |     `$1.98` |       `$1.98` | Always                      |
+| `*`          | `*`                      | Fallback Default Tariff     |    `$2.00` |          `$0.00` |         `$0.20` |    `$10.00` |      `$10.00` | Fallback                    |
 
 ---
 
@@ -227,7 +231,7 @@ The local reverse proxy (`tracker/proxy_handler.py`) transparently handles both 
 #### Option A: Install Self-Contained Extension (Marketplace / Open VSX / VSIX Release)
 
 1. **Via IDE Extensions View:** Search for **`AI Token & Cost Tracker`** (`VladyslavVitko.ai-token-cost-tracker`) in the VS Code Marketplace or Open VSX Registry (Cursor, Antigravity IDE, Windsurf, VSCodium).
-2. **Or via Direct VSIX Download:** Download [`ai-token-tracker-1.1.4.vsix`](https://github.com/Vladyslav-Vitko/ai-token-tracker/releases/latest) and run `Ctrl+Shift+P` → **`Extensions: Install from VSIX...`**. The extension includes the embedded Python backend and starts the local daemon (`127.0.0.1:8787`) automatically on IDE startup.
+2. **Or via Direct VSIX Download:** Download [`ai-token-tracker-1.1.5.vsix`](https://github.com/Vladyslav-Vitko/ai-token-tracker/releases/latest) and run `Ctrl+Shift+P` → **`Extensions: Install from VSIX...`**. The extension includes the embedded Python backend and starts the local daemon (`127.0.0.1:8787`) automatically on IDE startup.
 
 #### Option B: Standalone / Developer Service Installation (`./install.sh`)
 
@@ -244,7 +248,7 @@ The local reverse proxy (`tracker/proxy_handler.py`) transparently handles both 
    - Antigravity IDE: `~/.gemini/config/hooks.json` (`PostInvocation` & `Stop`) and sets `useG1Credits: false` in `~/.gemini/antigravity-cli/settings.json`.
    - Cursor IDE: `~/.cursor/hooks.json` (`stop` hook invoking `bin/cursor_plan_hook.py`).
 5. **Background Daemon Setup:** Configures and starts `~/.config/systemd/user/ai-token-tracker.service` on Linux/WSL2 (`systemctl --user enable --now`) or `~/Library/LaunchAgents/local.ai-token-tracker.plist` on macOS (`launchctl`) listening on `http://127.0.0.1:8787`.
-6. **Multi-IDE VSIX Packaging & Rollout:** Builds self-contained `vscode-extension/ai-token-tracker-1.1.4.vsix` using `build_vsix.py`, removes legacy installations if present, and installs the extension into all detected local and Remote/WSL IDEs (`antigravity-ide`, `cursor`, `code`, `code-insiders`, `codium`, `windsurf`, `~/.antigravity-ide-server`, `~/.cursor-server`, `~/.vscode-server`, `~/.windsurf-server`).
+6. **Multi-IDE VSIX Packaging & Rollout:** Builds self-contained `vscode-extension/ai-token-tracker-1.1.5.vsix` using `build_vsix.py`, removes legacy installations if present, and installs the extension into all detected local and Remote/WSL IDEs (`antigravity-ide`, `cursor`, `code`, `code-insiders`, `codium`, `windsurf`, `~/.antigravity-ide-server`, `~/.cursor-server`, `~/.vscode-server`, `~/.windsurf-server`).
 
 After installation, reload your IDE window once via `Ctrl+Shift+P` (or `Cmd+Shift+P`) → **`Developer: Reload Window`**.
 
@@ -390,13 +394,13 @@ tracker-cli deactivate
 ai-api --model gemini-4-argon --effort high
 
 # 2. Launch Anthropic Claude Paid API session (starts 'claude' CLI or tracked shell with ANTHROPIC_BASE_URL)
-ai-api --provider anthropic --model claude-sonnet-4-20250514
+ai-api --provider anthropic --model claude-sonnet-5-5
 
 # 3. Execute any command or script inside a tracked project environment
-ai-api --project shop2022 --provider openai --model gpt-5 -- python3 scripts/migrate.py
+ai-api --project shop2022 --provider openai --model gpt-6.1-sol -- python3 scripts/migrate.py
 
 # 4. Print shell export statements for the current project and provider
-eval "$(ai-api --project cms --provider anthropic --model claude-sonnet-4-20250514 --print-env)"
+eval "$(ai-api --project cms --provider anthropic --model claude-sonnet-5-5 --print-env)"
 ```
 
 ---
@@ -424,9 +428,9 @@ Any external IDE plugin (Continue, Cline, Roo Code, JetBrains AI, Zed, Aider) or
 {
   "models": [
     {
-      "title": "Claude Sonnet 4 (Tracked via AI Token Tracker)",
+      "title": "Claude Sonnet 5.5 (Tracked via AI Token Tracker)",
       "provider": "openai",
-      "model": "claude-sonnet-4-20250514",
+      "model": "claude-sonnet-5-5",
       "apiBase": "http://127.0.0.1:8787/p/my-project/v1",
       "apiKey": "vkey::my-project::<YOUR-LOCAL-PROXY-TOKEN>"
     }
@@ -549,7 +553,7 @@ ai-token-tracker/
 │   ├── package.json            # Extension manifest (commands, settings, context keys)
 │   ├── extension.js            # StatusBar controller, shared detached daemon manager & Webview bridge
 │   ├── build_vsix.py           # Zero-dependency Open Packaging Conventions (.vsix) builder
-│   └── ai-token-tracker-1.1.4.vsix
+│   └── ai-token-tracker-1.1.5.vsix
 ├── tests/
 │   ├── test_backend_e2e.py     # End-to-end backend, multi-IDE isolation, proxy & security suite
 │   ├── test_frontend_ui.mjs    # Static & runtime audit (Modern Web APIs, WCAG/ARIA, i18n parity, JS syntax)
@@ -578,10 +582,10 @@ python3 tests/test_release_pipeline.py
 
 ```bash
 python3 vscode-extension/build_vsix.py
-# Outputs: vscode-extension/ai-token-tracker-1.1.4.vsix (with embedded backend, icon, LICENSE.md & README.md)
+# Outputs: vscode-extension/ai-token-tracker-1.1.5.vsix (with embedded backend, icon, LICENSE.md & README.md)
 ```
 
-The generated `vscode-extension/ai-token-tracker-1.1.4.vsix` archive conforms to the Open Packaging Conventions specification and is ready for direct installation (**`Extensions: Install from VSIX...`**) or publishing to the **VS Code Marketplace** and **Open VSX Registry**.
+The generated `vscode-extension/ai-token-tracker-1.1.5.vsix` archive conforms to the Open Packaging Conventions specification and is ready for direct installation (**`Extensions: Install from VSIX...`**) or publishing to the **VS Code Marketplace** and **Open VSX Registry**.
 
 ---
 
