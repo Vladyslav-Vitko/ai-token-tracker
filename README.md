@@ -1,10 +1,10 @@
 🌐 **Language:** **English** | [Deutsch](./README.de.md)
 
-# ⚡ AI Token & Cost Tracker v1.1.5
+# ⚡ AI Token & Cost Tracker v1.1.6
 
 **Multi-Provider LLM API Gateway, Per-Project Cost Accounting & IDE-Isolated Subscription Plan Analytics**
 
-[![Version](https://img.shields.io/badge/version-1.1.5-blue.svg)](#)
+[![Version](https://img.shields.io/badge/version-1.1.6-blue.svg)](#)
 [![Python](<https://img.shields.io/badge/python-%3E%3D3.10%20(stdlib%20only)-3776AB.svg>)](#requirements--installation)
 [![VS Code Engine](https://img.shields.io/badge/vscode-%5E1.85.0-007ACC.svg)](#multi-ide-extension--command-palette)
 [![Dependencies](<https://img.shields.io/badge/dependencies-zero%20(0%20pip%20%2F%200%20npm)-success.svg>)](#project-structure-quality-assurance--marketplace-packaging)
@@ -53,7 +53,7 @@ Modern AI-assisted engineering combines **flat-rate IDE subscriptions** (e.g., A
 2. **Silent Overage & Auto-Fallback Traps:** Exhausting an included IDE quota can silently fall back to billable API keys, causing unexpected cost spikes.
 3. **Contaminated Analytics:** Mixing `$0.00` subscription tokens with billable API tokens distorts cost reporting and cache-efficiency metrics.
 
-**AI Token & Cost Tracker v1.1.5** solves this at the root via a local daemon (`http://127.0.0.1:8787`) with two strictly isolated ledgers:
+**AI Token & Cost Tracker v1.1.6** solves this at the root via a local daemon (`http://127.0.0.1:8787`) with two strictly isolated ledgers:
 
 | Capability          | Ledger 1: Included IDE Plan (`panel-plan`)                                                         | Ledger 2: Paid Multi-Model API (`panel-paid`)                                                                |
 | :------------------ | :------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------- |
@@ -142,7 +142,7 @@ Both the IDE status bar item and the `/api/stats/plan` endpoint enforce strict t
 ### Mode 4: Standalone Web Browser (`http://127.0.0.1:8787`, `ide=browser`)
 
 - Defaults to the unified **`All Active AI Plans & Extensions` (`surface=all`)** Control Center when multiple Plan IDEs or AI Chat Extensions exist on the host, or automatically hides Tab 1 if none are present.
-- Displays clickable **Active IDE & AI Extension Sources** summary cards (`@container sources-area`) preserving each source's native reset window (`Weekly` vs. `Monthly`), an explicit **Mixed Billing Cycle** banner whenever weekly and monthly plans coexist, a **`By Model` / `By IDE / Source`** chart toggle, and a **`Sync Info ⓘ`** status popover (`sync_status`).
+- Displays clickable **Active IDE & AI Extension Sources** summary cards (`@container sources-area`) preserving each source's native reset window (`Weekly` vs. `Monthly`), an explicit **Mixed Billing Cycle** banner whenever weekly and monthly plans coexist, and a **`By Model` / `By IDE / Source`** chart toggle, with live background sync diagnostics (`sync_status`) available under **Settings → Diagnostics & Data**.
 - A **30-second background daemon sync** continuously indexes transcripts across all 7 adapters—so even a second IDE operated **without** installing the extension stays accurately accounted for in SQLite WAL without breaking native-IDE Webview isolation (`?ide=antigravity`, `?ide=cursor`).
 
 ---
@@ -231,7 +231,7 @@ The local reverse proxy (`tracker/proxy_handler.py`) transparently handles both 
 #### Option A: Install Self-Contained Extension (Marketplace / Open VSX / VSIX Release)
 
 1. **Via IDE Extensions View:** Search for **`AI Token & Cost Tracker`** (`VladyslavVitko.ai-token-cost-tracker`) in the VS Code Marketplace or Open VSX Registry (Cursor, Antigravity IDE, Windsurf, VSCodium).
-2. **Or via Direct VSIX Download:** Download [`ai-token-tracker-1.1.5.vsix`](https://github.com/Vladyslav-Vitko/ai-token-tracker/releases/latest) and run `Ctrl+Shift+P` → **`Extensions: Install from VSIX...`**. The extension includes the embedded Python backend and starts the local daemon (`127.0.0.1:8787`) automatically on IDE startup.
+2. **Or via Direct VSIX Download:** Download [`ai-token-tracker-1.1.6.vsix`](https://github.com/Vladyslav-Vitko/ai-token-tracker/releases/latest) and run `Ctrl+Shift+P` → **`Extensions: Install from VSIX...`**. The extension includes the embedded Python backend and starts the local daemon (`127.0.0.1:8787`) automatically on IDE startup.
 
 #### Option B: Standalone / Developer Service Installation (`./install.sh`)
 
@@ -248,7 +248,7 @@ The local reverse proxy (`tracker/proxy_handler.py`) transparently handles both 
    - Antigravity IDE: `~/.gemini/config/hooks.json` (`PostInvocation` & `Stop`) and sets `useG1Credits: false` in `~/.gemini/antigravity-cli/settings.json`.
    - Cursor IDE: `~/.cursor/hooks.json` (`stop` hook invoking `bin/cursor_plan_hook.py`).
 5. **Background Daemon Setup:** Configures and starts `~/.config/systemd/user/ai-token-tracker.service` on Linux/WSL2 (`systemctl --user enable --now`) or `~/Library/LaunchAgents/local.ai-token-tracker.plist` on macOS (`launchctl`) listening on `http://127.0.0.1:8787`.
-6. **Multi-IDE VSIX Packaging & Rollout:** Builds self-contained `vscode-extension/ai-token-tracker-1.1.5.vsix` using `build_vsix.py`, removes legacy installations if present, and installs the extension into all detected local and Remote/WSL IDEs (`antigravity-ide`, `cursor`, `code`, `code-insiders`, `codium`, `windsurf`, `~/.antigravity-ide-server`, `~/.cursor-server`, `~/.vscode-server`, `~/.windsurf-server`).
+6. **Multi-IDE VSIX Packaging & Rollout:** Builds self-contained `vscode-extension/ai-token-tracker-1.1.6.vsix` using `build_vsix.py`, removes legacy installations if present, and installs the extension into all detected local and Remote/WSL IDEs (`antigravity-ide`, `cursor`, `code`, `code-insiders`, `codium`, `windsurf`, `~/.antigravity-ide-server`, `~/.cursor-server`, `~/.vscode-server`, `~/.windsurf-server`).
 
 After installation, reload your IDE window once via `Ctrl+Shift+P` (or `Cmd+Shift+P`) → **`Developer: Reload Window`**.
 
@@ -266,21 +266,26 @@ Once active, the extension renders a live telemetry item in the right status bar
 - **Armed State (`ARMED`):**
   - Highlighted with `statusBarItem.warningBackground`: `🔥 Plan: 17.5k | Paid API [ARMED]: $3.05 / €2.81`
 
-### Command Palette Commands (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+### Command Palette & Two-Level Quick Menu (`Ctrl+Shift+P` / `Cmd+Shift+P`)
 
-| Command ID                         | Command Palette Title                                                | Description                                                                                                                        |
-| :--------------------------------- | :------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
-| `aiTokenTracker.quickMenu`         | **AI Token Tracker: Open Main Menu & Quick Controls**                | Opens the context-aware QuickPick menu (dashboards, model launcher, safety lock, API keys, language switcher, browser view).       |
-| `aiTokenTracker.openPlanDashboard` | **AI Token Tracker: Open Included IDE Plan ($0.00)**                 | Opens Tab 1 directly inside the IDE Webview (_visible only in Antigravity & Cursor via `when: aiTokenTracker.hasPlan`_).           |
-| `aiTokenTracker.openPaidDashboard` | **AI Token Tracker: Open Paid API & Cost Dashboard ($ / €)**         | Opens Tab 2 (Multi-Provider Paid API Cost Accounting & Model Registry) inside the IDE Webview.                                     |
-| `aiTokenTracker.startPaidAgent`    | **AI Token Tracker [PAID]: Launch Model Session for Project**        | Interactive model picker: launch a tracked terminal (`ai-api`), copy project endpoint & virtual key, or open the Paid API Console. |
-| `aiTokenTracker.togglePaidLock`    | **AI Token Tracker [PAID]: Toggle Spending Safety Lock**             | Immediately toggles the global Paid API spending safety switch (`paid_api_armed`).                                                 |
-| `aiTokenTracker.setApiKey`         | **AI Token Tracker [PAID]: Configure Provider API Key (chmod 0600)** | Stores or clears provider API keys via a masked password input box (`chmod 0600`).                                                 |
-| `aiTokenTracker.manageLicense`     | **AI Token Tracker: Manage License & Pro Edition**                   | Manages Free Community Edition vs. Pro/Team license key activation (Polar.sh, Lemon Squeezy, Offline `AITT1-*`).                   |
-| `aiTokenTracker.selectPython`      | **AI Token Tracker: Select Python 3 Interpreter**                    | File picker dialog to explicitly select a Python 3.10+ executable (updates `aiTokenTracker.pythonPath`).                           |
-| `aiTokenTracker.showLogs`          | **AI Token Tracker: View Extension & Daemon Output Logs**            | Opens the dedicated VS Code Output channel (`View` → `Output` → `AI Token Tracker`) for live diagnostics.                          |
-| `aiTokenTracker.checkForUpdates`   | **AI Token Tracker: Check for Updates & Reload New Version**         | Checks Open VSX / VS Marketplace for updates, detects downloaded sibling packages, and prompts to reload.                          |
-| `aiTokenTracker.stopService`       | **AI Token Tracker: Stop Background Service (Shared Daemon)**        | Gracefully stops the shared detached `127.0.0.1:8787` daemon across open IDEs (with active-client lease confirmation).             |
+Clicking the status bar widget opens a categorized **two-level QuickPick menu** (`createQuickPick` with native section separators, title-bar quick action buttons for **Sync/Refresh**, **EN | DE Language Switch**, and **Extension Settings**, plus a **System, Diagnostics & Service** submenu with `Back` navigation and automatic recovery actions when offline or when a staged update is ready).
+
+| Command ID                            | Command Palette Title                                                     | Description                                                                                                                           |
+| :------------------------------------ | :------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------ |
+| `aiTokenTracker.quickMenu`            | **AI Token Tracker: Open Main Menu & Quick Controls**                     | Opens the categorized two-level QuickPick menu (dashboards, model launcher, safety lock, API keys, license, browser hub, diagnostics).|
+| `aiTokenTracker.openPlanDashboard`    | **AI Token Tracker: Open Included IDE Plan ($0.00)**                      | Opens Tab 1 directly inside the IDE Webview (_visible only when an active plan or AI extension exists via `when: aiTokenTracker.hasPlan`_). |
+| `aiTokenTracker.openPaidDashboard`    | **AI Token Tracker: Open Paid API & Cost Dashboard ($ / €)**              | Opens Tab 2 (Multi-Provider Paid API Cost Accounting & Model Registry) inside the IDE Webview.                                        |
+| `aiTokenTracker.openBrowserHub`       | **AI Token Tracker: Open Multi-IDE Hub in Browser**                       | Opens the unified cross-IDE Web Control Center (`http://127.0.0.1:8787`) in your default browser.                                     |
+| `aiTokenTracker.startPaidAgent`       | **AI Token Tracker: Paid API — Launch Model Session for Project**         | Interactive model picker: launch a tracked terminal (`ai-api`), copy project endpoint & virtual key, or open the Paid API Console.    |
+| `aiTokenTracker.togglePaidLock`       | **AI Token Tracker: Paid API — Toggle Spending Safety Lock**              | Immediately toggles the global Paid API spending safety switch (`paid_api_armed`).                                                    |
+| `aiTokenTracker.setApiKey`            | **AI Token Tracker: Paid API — Configure Provider API Key (chmod 0600)**  | Stores or clears provider API keys via a masked password input box (`chmod 0600`).                                                    |
+| `aiTokenTracker.manageLicense`        | **AI Token Tracker: Manage License & Pro Edition**                        | Manages Free Community Edition vs. Pro/Team license key activation (Polar.sh, Lemon Squeezy, Offline `AITT1-*`).                      |
+| `aiTokenTracker.syncPlanTranscripts`  | **AI Token Tracker: Re-scan Local Transcripts**                           | Forces an immediate SQLite transcript index sync across active IDE & AI extension logs (`when: aiTokenTracker.hasPlan`).              |
+| `aiTokenTracker.selectPython`         | **AI Token Tracker: Select Python 3 Interpreter**                         | File picker dialog to explicitly select a Python 3.10+ executable (updates `aiTokenTracker.pythonPath`).                              |
+| `aiTokenTracker.showLogs`             | **AI Token Tracker: View Extension & Daemon Output Logs**                 | Opens the dedicated VS Code Output channel (`View` → `Output` → `AI Token Tracker`) for live diagnostics.                             |
+| `aiTokenTracker.checkForUpdates`      | **AI Token Tracker: Check for Updates & Reload New Version**              | Checks Open VSX / VS Marketplace for updates, detects downloaded sibling packages, and prompts to reload.                             |
+| `aiTokenTracker.restartService`       | **AI Token Tracker: Restart Background Service (Shared Daemon)**          | Cleanly restarts the shared detached `127.0.0.1:8787` daemon (`systemd --user` or detached process).                                  |
+| `aiTokenTracker.stopService`          | **AI Token Tracker: Stop Background Service (Shared Daemon)**             | Gracefully stops the shared detached `127.0.0.1:8787` daemon across open IDEs (with active-client lease modal confirmation).          |
 
 > **Shared Multi-IDE Daemon Lifecycle:** When multiple IDEs run concurrently on the same machine, all extension windows attach to one shared detached daemon (`127.0.0.1:8787`, PID & client leases tracked in `data/clients/`, startup diagnostics rotated in `data/daemon.log`). Closing one IDE window never terminates the daemon or disconnects other active IDEs; automatic orphan recovery runs cleanly if the daemon exits unexpectedly.
 
@@ -302,7 +307,7 @@ Once active, the extension renders a live telemetry item in the right status bar
 #### Extension Updates & Auto-Update Lifecycle
 
 - **Gallery Auto-Updates:** VS Code and Open VSX-compatible IDEs check for extension updates periodically (every ~12 hours and on window startup). When a new version is downloaded in the background, a non-intrusive prompt appears allowing you to reload the window or extension host (`workbench.action.restartExtensionHost`) so updated menus and commands activate immediately.
-- **Manual Update Check:** Run `Ctrl+Shift+P` → **`AI Token Tracker: Check for Updates & Reload New Version`** (or select **Check for Updates** in the Quick Menu) to query the gallery and open the extension view immediately.
+- **Manual Update Check:** Run `Ctrl+Shift+P` → **`AI Token Tracker: Check for Updates & Reload New Version`** (or open **System, Diagnostics & Service → Check for Updates** in the Quick Menu) to query the gallery and open the extension view immediately.
 - **Pinned VSIX vs. Gallery Installs:** Extensions installed from a local `.vsix` archive are marked `pinned` by VS Code and will not auto-update from the gallery. To install directly from the gallery with auto-updates enabled, run `./install.sh --marketplace`.
 
 #### Status Bar shows `AI Tracker: Offline`
@@ -467,14 +472,14 @@ for chunk in response:
 The dashboard (`web/index.html`, `web/styles.css`, `web/app.js`), served both at `http://127.0.0.1:8787` and inside the native VS Code Webview, is built without heavy frontend frameworks using **Modern Web Platform APIs**:
 
 - **Native Browser Standards:**
-  - **HTML `<dialog>` Modals:** 8 unified native `<dialog>` modals (Local Proxy Endpoints & Keys with one-click clipboard copy for `vkey`, base URLs, and `ai-api`, Model Pricing Rule Editor, Provider & Key Storage, Settings & Safety Limits with preserved `0` budget references & persistent currency display, API Test Console with protocol-aware reasoning hints, API Request Receipt, Cursor Usage CSV Import, and Commercial License & Editions Manager with live Free/Pro quota meters) featuring a unified dimmed/blurred `::backdrop`, reduced-motion-safe `@starting-style` transitions, and safe backdrop light-dismiss (`closedby="any"`) on non-destructive inspection views.
-  - **Native Popover API & CSS Anchor Positioning (`popover="auto"`, `popovertarget`):** Declarative, trigger-anchored contextual menus for CSV/JSON exports (`Export ▾`) and live **Sync Info** (`#plan-sync-popover` via `--sync-plan-anchor`) with automatic `aria-expanded` synchronization and viewport-aware flip fallbacks.
+  - **HTML `<dialog>` Modals:** 8 unified native `<dialog>` modals (Local Proxy Endpoints & Keys with one-click clipboard copy for `vkey`, base URLs, and `ai-api`, Model Pricing Rule Editor, Provider & Key Storage with `chmod 0600` key saving and clearing, tabbed Settings [`Safety & Limits`, `Currency & Defaults`, `Plan Cycles`, `Diagnostics & Data`] with IDE-adaptive Plan Cycle visibility, preserved `0` budget references, persistent currency/provider defaults, read-only effective config snapshot, and inline dirty-state discard protection, API Test Console with protocol-aware reasoning hints, API Request Receipt, Cursor Usage CSV Import, and Commercial License & Editions Manager with live Free/Pro quota meters) featuring a unified dimmed/blurred `::backdrop`, reduced-motion-safe `@starting-style` transitions, and safe backdrop light-dismiss (`closedby="any"`) on non-destructive inspection views.
+  - **Native Popover API & CSS Anchor Positioning (`popover="auto"`, `popovertarget`):** Declarative, trigger-anchored contextual menus for CSV/JSON exports (`Export ▾`: `#export-plan-popover`, `#export-paid-popover` via `--export-plan-anchor` and `--export-paid-anchor`) with automatic `aria-expanded` synchronization and viewport-aware flip fallbacks.
   - **CSS Container Queries (`container-type: inline-size`):** Responsive component grids (`@container sources-area`, `@container kpi-area`, `@container charts-area`, `@container providers-area`) that adapt cleanly to narrow IDE side-by-side panels and ultra-wide monitors.
   - **Zero-Friction Auto-Refresh:** Transparent background updates on window focus (`visibilitychange` / `window.focus`) and periodic 30-second soft-polling keep token metrics immediately up-to-date as you chat in your IDE.
 - **Strict Accessibility (WCAG 2.2 AA & WAI-ARIA):**
   - Full keyboard operability including `.skip-link`, high-contrast `:focus-visible` outlines, and arrow-key navigation across both the WAI-ARIA `role="tablist"` and the license plan `role="radiogroup"` (with roving `tabindex`).
   - Polite screen-reader announcements via `aria-live="polite"` (`#live-announcer`) on filter updates, transcript syncs, and safety switch toggles.
-  - Sortable data tables with dynamic `aria-sort` state (`ascending` / `descending` / `none`) and semantic `<caption>` descriptions.
+  - Universal multi-column sorting across all 7 analytics & catalog tables (numeric/date-first descending defaults, natural string collation, nulls-last ordering, 3-state default priority reset on the Model & Pricing Catalog, request-UID-safe receipt inspection, keyboard-accessible header controls, localized tooltips, dynamic `aria-sort` state, and semantic `<caption>` descriptions).
 
 ---
 
@@ -498,7 +503,7 @@ The dashboard (`web/index.html`, `web/styles.css`, `web/app.js`), served both at
 | `POST` | `/api/providers/upsert` / `/api/providers/delete`                 | Creates, updates, or deletes provider configurations (optionally saving `api_key` atomically).                       |
 | `POST` | `/api/models/upsert` / `/api/models/delete`                       | Creates, updates, or deletes model pricing rules prior to the wildcard fallback (`*`).                               |
 | `POST` | `/api/secrets/apikey`                                             | Saves or clears API keys for one or multiple providers (`chmod 0600`).                                               |
-| `POST` | `/api/plan/sync`                                                  | Triggers immediate incremental synchronization of local IDE plan transcripts.                                        |
+| `POST` | `/api/plan/sync`                                                  | Triggers immediate incremental synchronization of local IDE plan transcripts (supports optional `ide`, `exts`, `surface`, and `force` scoping). |
 | `POST` | `/api/plan/cursor/import-csv`                                     | Imports and idempotently deduplicates official Cursor Dashboard Usage CSV exports (Free limit: 500 rows/import, `HTTP 402` above). |
 | `POST` | `/api/playground/chat`                                            | Executes an explicit Paid API test prompt through the local tracking proxy with optional reasoning config (`thinking_level` / `thinking_applied`), usage, and cost metrics. |
 | `GET`  | `/api/license/status`                                             | Returns current license tier (`free`, `pro`, `team`), entitlements, live quota `usage` counters, and masked key status. |
@@ -553,7 +558,7 @@ ai-token-tracker/
 │   ├── package.json            # Extension manifest (commands, settings, context keys)
 │   ├── extension.js            # StatusBar controller, shared detached daemon manager & Webview bridge
 │   ├── build_vsix.py           # Zero-dependency Open Packaging Conventions (.vsix) builder
-│   └── ai-token-tracker-1.1.5.vsix
+│   └── ai-token-tracker-1.1.6.vsix
 ├── tests/
 │   ├── test_backend_e2e.py     # End-to-end backend, multi-IDE isolation, proxy & security suite
 │   ├── test_frontend_ui.mjs    # Static & runtime audit (Modern Web APIs, WCAG/ARIA, i18n parity, JS syntax)
@@ -582,10 +587,10 @@ python3 tests/test_release_pipeline.py
 
 ```bash
 python3 vscode-extension/build_vsix.py
-# Outputs: vscode-extension/ai-token-tracker-1.1.5.vsix (with embedded backend, icon, LICENSE.md & README.md)
+# Outputs: vscode-extension/ai-token-tracker-1.1.6.vsix (with embedded backend, icon, LICENSE.md & README.md)
 ```
 
-The generated `vscode-extension/ai-token-tracker-1.1.5.vsix` archive conforms to the Open Packaging Conventions specification and is ready for direct installation (**`Extensions: Install from VSIX...`**) or publishing to the **VS Code Marketplace** and **Open VSX Registry**.
+The generated `vscode-extension/ai-token-tracker-1.1.6.vsix` archive conforms to the Open Packaging Conventions specification and is ready for direct installation (**`Extensions: Install from VSIX...`**) or publishing to the **VS Code Marketplace** and **Open VSX Registry**.
 
 ---
 
