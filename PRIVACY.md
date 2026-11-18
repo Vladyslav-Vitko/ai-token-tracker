@@ -21,6 +21,11 @@
 - **Online Pro/Team License Keys (Polar.sh / Lemon Squeezy):** When you activate an online license key or when recurring subscriptions (Monthly / Annual) periodically verify renewal status, your local daemon sends a direct HTTPS request containing strictly the license key string and an anonymized local instance identifier (`hostname-ide`) to the Merchant of Record API (`api.polar.sh` or `api.lemonsqueezy.com`) to verify active billing validity. No prompts, source code, project names, or usage metrics are ever included in license verification requests.
 - Payment processing, invoicing, and VAT/MwSt compliance are handled exclusively by the Merchant of Record (Polar.sh or Lemon Squeezy) under their respective GDPR-compliant privacy policies.
 
+### 2.1 Voluntary User-Initiated Bug Reports & Feedback (Opt-In Only)
+
+- If you explicitly open the **Report Bug & Send Feedback** dialog and click **Send Report** (or open a pre-filled GitHub Issue), only the description and optional contact handle you enter—along with an optional, previewable anonymized technical snapshot (`version`, `host_ide`, `os_platform`, `python_version`, `active_plan_surface`, `license_tier`)—are transmitted to process your report and deliver your Bug Bounty Pro reward key.
+- API keys, `secrets.json` contents, prompts, completions, source code, and project names are **never** included in diagnostic snapshots.
+
 ---
 
 ## 3. Datenschutzerklärung (Deutsch — DSGVO)
@@ -39,6 +44,11 @@
 - Bei Nutzung von Offline-Lizenzschlüsseln (`AITT1-PRO-...`) findet keinerlei externe Kommunikation statt.
 - Bei Aktivierung oder periodischer Verlängerungsprüfung (Auto-Renewal bei Monats- oder Jahresabonnements) eines über unseren Zahlungsabwickler (Merchant of Record: **Polar.sh** oder **Lemon Squeezy**) erworbenen Lizenzschlüssels wird ausschließlich der Lizenzschlüssel sowie eine lokale Instanz-Kennung zur Gültigkeitsbestätigung per HTTPS an die API des jeweiligen Zahlungsabwicklers übermittelt (Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO — Vertragserfüllung). Es werden zu keinem Zeitpunkt Projektdaten, Quellcodes, Prompts oder Nutzungsstatistiken übertragen.
 
-### 3.4 Ihre Rechte nach DSGVO
+### 3.4 Freiwillige Fehlermeldungen & Feedback (Opt-In)
+
+- Nur wenn Sie aktiv den Dialog **Bug melden & Feedback senden** nutzen und ausdrücklich auf **Absenden** klicken (oder ein vorausgefülltes GitHub-Issue öffnen), werden Ihre eingegebene Beschreibung, Ihre optionale Kontaktangabe für die Bug-Bounty-Prämie sowie (falls aktiviert und in der Vorschau einsehbar) ein anonymisierter technischer System-Snapshot (`version`, `host_ide`, `os_platform`, `python_version`, `active_plan_surface`, `license_tier`) übermittelt (Rechtsgrundlage: Art. 6 Abs. 1 lit. a/b DSGVO).
+- Es werden niemals API-Schlüssel, `secrets.json`-Inhalte, Prompts, Quellcode oder Projektnamen in Diagnoseberichte aufgenommen.
+
+### 3.5 Ihre Rechte nach DSGVO
 
 Da sämtliche Nutzungsdaten ausschließlich lokal auf Ihrem eigenen Gerät gespeichert werden, haben Sie jederzeit die volle Kontrolle über Ihre Daten und können diese jederzeit durch Löschen der lokalen Datei `usage.sqlite3` bzw. `secrets.json` vollständig entfernen.
