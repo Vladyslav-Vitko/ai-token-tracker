@@ -23,7 +23,7 @@ A valid **Pro** or **Team Commercial License Key** (purchased via Polar.sh, Lemo
 
 1. **Unlimited Paid API Client & Repository Projects** (`> 5` tracked projects).
 2. **Unlimited Custom Providers & Custom / Date-Scheduled Model Tariff Rules** (`> 2` custom providers / `> 3` custom model rules).
-3. **Client Invoicing & Tax Accounting Data Exports** (full UTF-8-BOM CSV and JSON exports: `/api/export/plan.csv`, `/api/export/paid.csv`, `/api/export/plan.json`, `/api/export/paid.json`).
+3. **Client Invoicing & Tax Accounting Data Exports** (full UTF-8-BOM CSV, JSON, and print-ready HTML/PDF audit reports: `/api/export/plan.csv`, `/api/export/paid.csv`, `/api/export/plan.json`, `/api/export/paid.json`, `/api/export/plan.html`, `/api/export/paid.html`).
 4. **Unlimited Bulk Cursor Dashboard Usage CSV Imports** (`> 500` rows per batch).
 5. **Commercial Multi-Seat / Agency Deployment** across client repositories.
 

@@ -5,6 +5,15 @@ All notable changes to **AI Token & Cost Tracker** are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.8] - 2026-11-27
+
+### Added
+- **quotas, ui:** Replace static plan token refs with live IDE quota rings and gold-framed Paid API limits.
+- **export:** Add print-ready HTML/PDF client billing & audit reports, CLI export, and daemon hot-reload.
+
+### Documentation
+- **readme:** Expose annual, monthly, and lifetime Polar.sh checkout links.
+
 ## [1.1.7] - 2026-11-18
 
 ### Added
@@ -140,6 +149,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Hardware-style Paid API safety switch (`LOCKED` by default), daily/monthly USD budget circuit breakers, and `chmod 0600` secret storage.
 - Adaptive WCAG 2.2 AA / WAI-ARIA Dual-Tab Web Dashboard (`<dialog>`, Popover API, CSS `@container` queries) with full English and German (`EN` / `DE`) localization.
 
+[1.1.8]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.1.7...v1.1.8
 [1.1.7]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.1.6...v1.1.7
 [1.1.6]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.1.5...v1.1.6
 [1.1.5]: https://github.com/Vladyslav-Vitko/ai-token-tracker/compare/v1.1.4...v1.1.5

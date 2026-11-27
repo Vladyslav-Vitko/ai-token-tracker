@@ -1,20 +1,20 @@
 🌐 **Language:** **English** | [Deutsch](./README.de.md)
 
-# ⚡ AI Token & Cost Tracker v1.1.7
+# ⚡ AI Token & Cost Tracker v1.1.8
 
 **Local-First Multi-Provider LLM Gateway, Per-Project Cost Accounting & IDE-Isolated Subscription Plan Analytics**
 
-[![Version](https://img.shields.io/badge/version-1.1.7-blue.svg)](https://github.com/Vladyslav-Vitko/ai-token-tracker/releases/latest)
+[![Version](https://img.shields.io/badge/version-1.1.8-blue.svg)](https://github.com/Vladyslav-Vitko/ai-token-tracker/releases/latest)
 [![VS Marketplace](https://img.shields.io/badge/VS%20Marketplace-Install-007ACC.svg)](https://marketplace.visualstudio.com/items?itemName=VladyslavVitko.ai-token-cost-tracker)
 [![Open VSX](https://img.shields.io/badge/Open%20VSX-Install-a60ee5.svg)](https://open-vsx.org/extension/VladyslavVitko/ai-token-cost-tracker)
 [![Python](<https://img.shields.io/badge/python-%3E%3D3.10%20(stdlib%20only)-3776AB.svg>)](#2-60-second-quickstart--installation)
 [![Dependencies](<https://img.shields.io/badge/dependencies-zero%20(0%20pip%20%2F%200%20npm)-success.svg>)](#9-system-architecture-rest-api--sqlite-schema)
 [![Security](<https://img.shields.io/badge/paid%20api-LOCKED%20by%20default%20(%240%20risk)-critical.svg>)](#5-zero-trust-cost-protection--key-security)
-[![Pro Edition](<https://img.shields.io/badge/Pro%20Edition-from%20%242.08%2Fmo%20or%20Lifetime%20(Polar.sh)-f59e0b.svg>)](https://buy.polar.sh/polar_cl_2EcUogc92f06pCVToDHs8lhxPJDNi1EBn7P6K1rB7V3)
+[![Pro Edition](<https://img.shields.io/badge/Pro%20Edition-from%20%242.08%2Fmo%20or%20Lifetime%20(Polar.sh)-f59e0b.svg>)](#8-commercial-licensing-free-vs-pro--team-edition)
 
 [**Install from VS Code Marketplace**](https://marketplace.visualstudio.com/items?itemName=VladyslavVitko.ai-token-cost-tracker) · [**Install from Open VSX**](https://open-vsx.org/extension/VladyslavVitko/ai-token-cost-tracker) · [**Download `.vsix` Release**](https://github.com/Vladyslav-Vitko/ai-token-tracker/releases/latest) · [**60-Second Quickstart**](#2-60-second-quickstart--installation) · [**Get Pro / Team**](#8-commercial-licensing-free-vs-pro--team-edition) · [**Changelog**](./CHANGELOG.md)
 
-> **One Local Control Center for All Your AI Coding Costs:** **AI Token & Cost Tracker v1.1.7** is a 100% local-first (`127.0.0.1:8787`), zero-dependency telemetry gateway and multi-IDE extension for **Antigravity IDE, Cursor, VS Code, VSCodium, Windsurf, and CLI/SDK workflows**. It enforces a strict **Dual-Ledger Architecture** that separates **Included IDE Subscription Plans (`$0.00` extra cost)** from **Paid Multi-Provider API usage (`USD $` / `EUR €`)** across **Google Gemini (incl. Gemini 4 Argon & Carbon), Anthropic Claude, OpenAI, OpenRouter, and custom endpoints** (DeepSeek, Mistral, xAI, Ollama) — complete with per-project cost attribution, hardware-style budget circuit breakers, and `chmod 0600` API key isolation.
+> **One Local Control Center for All Your AI Coding Costs:** **AI Token & Cost Tracker v1.1.8** is a 100% local-first (`127.0.0.1:8787`), zero-dependency telemetry gateway and multi-IDE extension for **Antigravity IDE, Cursor, VS Code, VSCodium, Windsurf, and CLI/SDK workflows**. It enforces a strict **Dual-Ledger Architecture** that separates **Included IDE Subscription Plans (`$0.00` extra cost)** from **Paid Multi-Provider API usage (`USD $` / `EUR €`)** across **Google Gemini (incl. Gemini 4 Argon & Carbon), Anthropic Claude, OpenAI, OpenRouter, and custom endpoints** (DeepSeek, Mistral, xAI, Ollama) — complete with per-project cost attribution, hardware-style budget circuit breakers, and `chmod 0600` API key isolation.
 
 ---
 
@@ -57,15 +57,15 @@ Modern AI-assisted software engineering combines **flat-rate IDE subscriptions**
 2. **Silent Overage & Auto-Fallback Traps:** Exhausting an included IDE quota can silently fall back to billable API keys, causing unexpected cost spikes.
 3. **Contaminated Analytics:** Mixing `$0.00` flat-rate subscription tokens with billable API tokens distorts both financial reporting and prompt-cache efficiency metrics.
 
-**AI Token & Cost Tracker v1.1.7** eliminates these risks at the root via a shared local daemon (`http://127.0.0.1:8787`) backed by two strictly isolated SQLite WAL ledgers:
+**AI Token & Cost Tracker v1.1.8** eliminates these risks at the root via a shared local daemon (`http://127.0.0.1:8787`) backed by two strictly isolated SQLite WAL ledgers:
 
 | Dimension | Ledger 1: Included IDE Subscription Plan (`panel-plan`) | Ledger 2: Paid Multi-Model API (`panel-paid`) |
 | :--- | :--- | :--- |
 | **Marginal Cost** | **Always `$0.00` / `€0.00`** (covered by your IDE subscription) | **Exact per-request accounting in `USD ($)` & `EUR (€)`** |
-| **Data Sources** | Local IDE & AI chat extension transcripts across **7 sources** (`antigravity`, `cursor`, `copilot`, `claude-code`, `codex`, `cline`, `continue`), fail-open lifecycle hooks, 30s background sync & Cursor Usage CSV import | Local Multi-Provider Tracking Reverse Proxy (`/p/<project>/...` and `/p/<project>/v1/...`) |
-| **IDE Visibility** | Native Plan IDEs (**Antigravity**, **Cursor**) strictly isolate to their own plan; **VS Code / VSCodium / Windsurf** show active host AI extensions; **Browser Hub** shows **All Active AI Plans & Extensions (`all`)** with per-source cards | Available across **all** IDEs (Antigravity, Cursor, VS Code, VSCodium, Windsurf) and standalone browsers |
-| **Token Metrics** | `Uncached Input`, `Cache Read`, `Output`, `Cache Hit Ratio (%)`, `Equivalent API Value Saved ($)` | `Uncached Input`, `Cache Write (1.25×)`, `Cache Read`, `Output`, `Thinking / Reasoning`, `Net Cache Savings ($)` |
-| **Financial Safety** | Never triggers billable API calls when plan quota is exhausted | Default **`LOCKED ($0.00 risk)`** + hard daily/monthly UTC USD budget circuit breakers (`HTTP 429`) |
+| **Data Sources** | Local IDE & AI chat extension transcripts across **7 sources** (`antigravity`, `cursor`, `copilot`, `claude-code`, `codex`, `cline`, `continue`), live IDE quota telemetry & hooks (`agy_plan_hook.py`, `cursor_plan_hook.py`, `claude_plan_hook.py`), 30s background sync & Cursor Usage CSV import | Local Multi-Provider Tracking Reverse Proxy (`/p/<project>/...` and `/p/<project>/v1/...`) |
+| **IDE Visibility** | Native Plan IDEs (**Antigravity**, **Cursor**) strictly isolate to their own plan & live circular quota ring gauges (`Weekly` / `5-Hour` / `Monthly` `%` remaining + reset countdown); **VS Code / VSCodium / Windsurf** show active host AI extensions; **Browser Hub** shows **All Active AI Plans & Extensions (`all`)** | Available across **all** IDEs (Antigravity, Cursor, VS Code, VSCodium, Windsurf) and standalone browsers |
+| **Token Metrics** | Live IDE Quota Rings (`%` remaining + refresh timer), `Uncached Input`, `Cache Read`, `Output`, `Cache Hit Ratio (%)`, `Equivalent API Value Saved ($)` | `Uncached Input`, `Cache Write (1.25×)`, `Cache Read`, `Output`, `Thinking / Reasoning`, `Net Cache Savings ($)` |
+| **Financial Safety** | Dynamic IDE/extension limits (auto-updated across IDE releases); never triggers billable API calls when plan quota is exhausted | Default **`LOCKED ($0.00 risk)`** + gold-framed daily/monthly UTC **USD & Token** circuit breakers (`HTTP 429`) |
 
 ---
 
@@ -87,7 +87,7 @@ The extension archive is **100% self-contained**: it embeds both the Webview UI 
 1. **Install from Registry:**
    - **VS Code:** Install from the [**Visual Studio Marketplace (`VladyslavVitko.ai-token-cost-tracker`)**](https://marketplace.visualstudio.com/items?itemName=VladyslavVitko.ai-token-cost-tracker).
    - **Antigravity IDE, Cursor, Windsurf, VSCodium:** Install from the [**Open VSX Registry (`VladyslavVitko/ai-token-cost-tracker`)**](https://open-vsx.org/extension/VladyslavVitko/ai-token-cost-tracker).
-   - **Or Direct `.vsix` Offline Install:** Download [`ai-token-tracker-1.1.7.vsix`](https://github.com/Vladyslav-Vitko/ai-token-tracker/releases/latest) and run `Ctrl+Shift+P` (`Cmd+Shift+P` on macOS) → **`Extensions: Install from VSIX...`**.
+   - **Or Direct `.vsix` Offline Install:** Download [`ai-token-tracker-1.1.8.vsix`](https://github.com/Vladyslav-Vitko/ai-token-tracker/releases/latest) and run `Ctrl+Shift+P` (`Cmd+Shift+P` on macOS) → **`Extensions: Install from VSIX...`**.
 2. **Start Working:**
    - Check the bottom-right IDE status bar: `🛡️ Plan: ... | Paid API: LOCKED ($0.00)`.
    - Click the status bar item to open the **Quick Menu**, view your **Included Plan (`$0.00`)** or **Paid API (`$ / €`)** dashboards, configure provider API keys (`chmod 0600`), or open the cross-IDE **Browser Hub** (`http://127.0.0.1:8787`).
@@ -107,9 +107,9 @@ If you have a local source checkout and also want terminal CLI symlinks (`ai-api
 What `./install.sh` performs idempotently:
 1. Registers the installation path in `~/.config/ai-token-tracker/install_path` and initializes `config/settings.json`, `config/secrets.json` (`chmod 0600`), and SQLite WAL `data/usage.sqlite3`.
 2. Symlinks `ai-api`, `agy-api`, `tracker-cli`, and `ai-tracker-server` into `~/.local/bin/`.
-3. Registers fail-open lifecycle hooks (`bin/agy_plan_hook.py` and `bin/cursor_plan_hook.py`) exclusively for Plan IDEs present on the host.
+3. Registers fail-open lifecycle & quota hooks (`bin/agy_plan_hook.py`, `bin/cursor_plan_hook.py`, and `bin/claude_plan_hook.py`) exclusively for Plan IDEs/CLIs present on the host.
 4. Enables the background service (`~/.config/systemd/user/ai-token-tracker.service` on Linux/WSL2 or `~/Library/LaunchAgents/local.ai-token-tracker.plist` on macOS).
-5. Packages `vscode-extension/ai-token-tracker-1.1.7.vsix` and installs it across all detected desktop and Remote/WSL IDE servers (`antigravity-ide`, `cursor`, `code`, `code-insiders`, `codium`, `windsurf`).
+5. Packages `vscode-extension/ai-token-tracker-1.1.8.vsix` and installs it across all detected desktop and Remote/WSL IDE servers (`antigravity-ide`, `cursor`, `code`, `code-insiders`, `codium`, `windsurf`).
 
 ---
 
@@ -214,9 +214,10 @@ Both the IDE status bar and the dashboard automatically adapt to the host enviro
 1. **Hardware-Style Spending Safety Switch (`paid_api_armed: false` by default):**
    - In its default **`PAID API: LOCKED`** state, the local proxy immediately rejects every billable request with `HTTP 403 PERMISSION_DENIED` (`$0.00` financial risk).
    - Paid API requests are only forwarded when you explicitly unlock (**`ARMED`**) the switch via the IDE status bar, Dashboard, or `tracker-cli arm`.
-2. **Hard Daily & Monthly UTC Budget Circuit Breakers (`block_on_budget_exceeded: true`):**
-   - Before forwarding any upstream request, the proxy checks cumulative UTC daily and monthly spend against `daily_budget_limit_usd` (default `$15.00`) and `monthly_budget_limit_usd` (default `$120.00`).
-   - Reaching either threshold immediately blocks further requests with `HTTP 429 RESOURCE_EXHAUSTED`.
+2. **Hard Daily & Monthly UTC Cost & Token Circuit Breakers (`block_on_budget_exceeded: true`):**
+   - Configured in a dedicated **gold-framed External Paid API** settings section so Paid API limits are unmistakably separated from `$0.00` IDE subscriptions.
+   - Before forwarding any upstream request, the proxy checks cumulative UTC daily and monthly usage against `daily_budget_limit_usd` (default `$15.00`), `monthly_budget_limit_usd` (default `$120.00`), and optional `daily_token_limit` / `monthly_token_limit` caps.
+   - Reaching any active threshold immediately blocks further billable requests with `HTTP 429 RESOURCE_EXHAUSTED`.
 3. **`chmod 0600` Key Vault & Virtual Project Keys (`vkey`):**
    - Your real upstream provider API keys are stored exclusively on your local disk in `config/secrets.json` with enforced POSIX `0600` owner-only permissions.
    - IDE plugins, CLI scripts, and subshells never receive your real API keys. Instead, they authenticate with a project-scoped **Virtual Key**: `vkey::<project_name>::<local_proxy_token>`.
@@ -392,10 +393,11 @@ tracker-cli add-model \
 tracker-cli sync --ide all
 tracker-cli import-cursor-csv ~/Downloads/cursor-usage.csv --project cms
 
-# Print strictly isolated terminal reports
+# Print strictly isolated terminal reports or export HTML/PDF, CSV & JSON reports (Pro/Team)
 tracker-cli report --ledger plan --ide antigravity --period week
 tracker-cli report --ledger plan --ide cursor --period month_cycle
 tracker-cli report --ledger paid --period month --provider all
+tracker-cli export --ledger paid --format html --period month --markup 15 --vat 19 --client "Acme GmbH" -o paid_report.html
 
 # Inspect, refresh, activate, or deactivate a commercial Pro / Team license key
 tracker-cli license
@@ -424,8 +426,16 @@ The **Commercial Pro & Team Editions** are built for freelancers, agencies, and 
 | **Custom Providers (DeepSeek, Mistral, Ollama, vLLM, etc.)** | Up to **2 custom providers** | **Unlimited custom providers** |
 | **Custom & Date-Scheduled Model Pricing Rules** | Up to **3 custom model rules** | **Unlimited custom model rules** |
 | **Cursor Dashboard Usage CSV Import** | Up to **500 rows** per import | **Unlimited bulk CSV import** |
-| **Client Invoicing & Tax Accounting Exports (`CSV` & `JSON`)** | Disabled (`HTTP 402` on all exports) | **Full UTF-8-BOM CSV & JSON exports (`/api/export/*`)** |
-| **Pricing & Activation Modes** | **Free forever (`$0.00`)** | **Annual (`$2.08/mo` — `$24.99/yr`, Save 58%)**, **Monthly (`$4.99/mo`)**, or **Lifetime (`$49.99`)** via [**Polar.sh Checkout**](https://buy.polar.sh/polar_cl_2EcUogc92f06pCVToDHs8lhxPJDNi1EBn7P6K1rB7V3) & 100% Offline Signed Keys (`AITT1-PRO-...`) |
+| **Client Invoicing & Tax Accounting Exports (`CSV`, `JSON` & `HTML / PDF`)** | Disabled (`HTTP 402` on all exports) | **Full UTF-8-BOM CSV, JSON & Print-Ready HTML/PDF Reports (`/api/export/*`)** |
+| **Pricing & Activation Modes** | **Free forever (`$0.00`)** | Polar.sh Checkout: [**Annual (`$2.08/mo` — `$24.99/yr`, Save 58%)**](https://buy.polar.sh/polar_cl_BPHF2Z8AmhOizEDRbn87n1ynZZDs8jcK9MXle05eXax) · [**Monthly (`$4.99/mo`)**](https://buy.polar.sh/polar_cl_cD8C56yfFsudWCoEfE6Wr8RnROjqU1nZvFocX3ta7cZ) · [**Lifetime (`$49.99`)**](https://buy.polar.sh/polar_cl_2EcUogc92f06pCVToDHs8lhxPJDNi1EBn7P6K1rB7V3) & 100% Offline Signed Keys (`AITT1-PRO-...`) |
+
+### Commercial Pro Checkout Options (Polar.sh)
+
+| Plan | Price | Billing Cycle | Polar.sh Checkout |
+| :--- | :--- | :--- | :--- |
+| **Annual Pro** *(Save 58% · Best Value)* | **`$24.99/yr`** (`~$2.08/mo`) | Annual subscription, cancel anytime | [**Subscribe Annual Pro (Polar.sh)**](https://buy.polar.sh/polar_cl_BPHF2Z8AmhOizEDRbn87n1ynZZDs8jcK9MXle05eXax) |
+| **Monthly Pro** | **`$4.99/mo`** | Monthly subscription, cancel anytime | [**Subscribe Monthly Pro (Polar.sh)**](https://buy.polar.sh/polar_cl_cD8C56yfFsudWCoEfE6Wr8RnROjqU1nZvFocX3ta7cZ) |
+| **Lifetime Pro** | **`$49.99`** *(one-time)* | Perpetual license, all future updates | [**Buy Lifetime Pro (Polar.sh)**](https://buy.polar.sh/polar_cl_2EcUogc92f06pCVToDHs8lhxPJDNi1EBn7P6K1rB7V3) |
 
 ---
 
@@ -483,8 +493,8 @@ flowchart TB
 ### 9.2 Modern Web Dashboard & Accessibility Standards (WCAG 2.2 AA)
 
 Served both at `http://127.0.0.1:8787` and inside the native VS Code Webview without heavy frontend frameworks:
-- **Native `<dialog>` Modals & Popover API:** 9 unified `<dialog>` modals (Endpoints & Keys with one-click copy, Model Tariff Editor, Provider & Key Vault, 4-tab Settings [`Safety & Limits`, `Currency & Defaults`, `Plan Cycles`, `Diagnostics & Data`] with dirty-state protection, API Test Console with protocol-aware reasoning hints, Request Receipt Inspector, Cursor CSV Import, License Manager with live quota meters, and Sticky Bottom-Right Bug Bounty & Feedback Reporter with previewable anonymized diagnostics) plus CSS-Anchor-Positioned export menus (`popover="auto"`).
-- **Responsive CSS Container Queries (`@container`):** Fluid component layouts (`sources-area`, `kpi-area`, `charts-area`, `providers-area`, `table-card`) and paired full-width SVG charts/heatmaps that adapt cleanly from narrow IDE split panels to ultra-wide monitors.
+- **Native `<dialog>` Modals & Popover API:** 10 unified `<dialog>` modals (Endpoints & Keys with one-click copy, Model Tariff Editor, Provider & Key Vault, 4-tab Settings [`Safety & Limits` with gold-framed External Paid API USD & token caps, `Currency & Defaults`, `Plan Cycles`, `Diagnostics & Data`] with dirty-state protection, Live IDE Quota Sync & Calibration, API Test Console with protocol-aware reasoning hints, Request Receipt Inspector, Cursor CSV Import, License Manager with live quota meters, and Sticky Bottom-Right Bug Bounty & Feedback Reporter with previewable anonymized diagnostics) plus CSS-Anchor-Positioned export menus (`popover="auto"`).
+- **Responsive CSS Container Queries (`@container`):** Fluid component layouts (`sources-area`, `quotas-area`, `kpi-area`, `charts-area`, `providers-area`, `table-card`), live circular SVG quota ring gauges (`Weekly` / `5-Hour` / `Monthly` remaining `%`), and paired full-width SVG charts/heatmaps that adapt cleanly from narrow IDE split panels to ultra-wide monitors.
 - **Strict WCAG 2.2 AA & WAI-ARIA Compliance:** Full keyboard navigation (`.skip-link`, `:focus-visible`, arrow-key `role="tablist"` & `role="radiogroup"`), polite live announcements (`aria-live="polite"`), and universal multi-column sorting across all 7 analytics & catalog tables (`aria-sort`, natural string collation, 3-state priority reset).
 
 ### 9.3 REST API Endpoints (`tracker/server.py`)
@@ -498,12 +508,14 @@ Served both at `http://127.0.0.1:8787` and inside the native VS Code Webview wit
 | `GET` | `/api/ide-connection?project=<project>` | Generates all per-project proxy URLs and the `virtual_key` (`vkey::<project>::<token>`). |
 | `GET` | `/api/export/plan.csv` / `/api/export/paid.csv` | UTF-8-BOM CSV export of per-project token and cost tables (requires Pro or Team license). |
 | `GET` | `/api/export/plan.json` / `/api/export/paid.json` | Full JSON analytics export of plan and paid telemetry (requires Pro or Team license). |
+| `GET` | `/api/export/plan.html` / `/api/export/paid.html` | Print-ready HTML / PDF audit & client billing reports with live Markup %, VAT/MwSt. %, and SHA-256 verification hash (requires Pro or Team license). |
 | `POST` | `/api/safety/toggle` | Toggles `paid_api_armed` (`true` / `false`). |
 | `POST` | `/api/settings` | Updates currency (`primary_display`), safety, budget cap, IDE default, and subscription cycle settings. |
 | `POST` | `/api/providers/upsert` / `/api/providers/delete` | Creates, updates, or deletes provider configurations (optionally saving `api_key` atomically). |
 | `POST` | `/api/models/upsert` / `/api/models/delete` | Creates, updates, or deletes model pricing rules prior to the wildcard fallback (`*`). |
 | `POST` | `/api/secrets/apikey` | Saves or clears API keys for one or multiple providers (`chmod 0600`). |
 | `POST` | `/api/plan/sync` | Triggers immediate incremental synchronization of local IDE plan transcripts (`ide`, `exts`, `surface`, `force`). |
+| `POST` | `/api/plan/quotas` | Synchronizes or resets (`action: "upsert"` / `"clear"`) live IDE & extension model quota windows (`%` remaining + refresh timestamps). |
 | `POST` | `/api/plan/cursor/import-csv` | Imports and idempotently deduplicates official Cursor Dashboard Usage CSV exports (Free limit: 500 rows/import). |
 | `POST` | `/api/playground/chat` | Executes an explicit Paid API test prompt through the local tracking proxy with optional reasoning config and cost receipt. |
 | `GET` | `/api/license/status` | Returns current license tier (`free`, `pro`, `team`), entitlements, live quota `usage` counters, and masked key status. |
@@ -518,10 +530,11 @@ Served both at `http://127.0.0.1:8787` and inside the native VS Code Webview wit
 When running from the self-contained Marketplace / `.vsix` extension, all runtime configuration and database files are stored in **`~/.config/ai-token-tracker/`** (or `$AI_TRACKER_DATA_DIR`, preserving any existing local installation):
 - `~/.config/ai-token-tracker/config/settings.json` — Active user settings, custom providers, and custom tariff rules.
 - `~/.config/ai-token-tracker/config/secrets.json` — Isolated `chmod 0600` provider API keys, proxy token, and license state.
-- `~/.config/ai-token-tracker/data/usage.sqlite3` — Local SQLite database in `WAL` mode containing three tables:
+- `~/.config/ai-token-tracker/data/usage.sqlite3` — Local SQLite database in `WAL` mode containing four tables:
   1. **`plan_usage_steps`**: IDE & extension subscription steps (`conversation_id`, `step_index`, `created_at`, `project_name`, `model_name`, `surface` [`antigravity` | `cursor` | `copilot` | `claude-code` | `codex` | `cline` | `continue`], `billing_cycle` [`weekly` | `monthly`], `uncached_input_tokens`, `cached_input_tokens`, `output_tokens`, `total_tokens`, `is_estimated`) with `UNIQUE(conversation_id, step_index)`.
   2. **`plan_sync_state`**: Incremental file-stat index (`transcript_path`, `mtime_ns`, `file_size`, `project_name`, `model_name`, `updated_at`) preventing redundant disk reads.
-  3. **`paid_api_requests`**: Audit-grade ledger of billable API calls (`request_uid`, `created_at`, `project_name`, `provider`, `model_name`, `endpoint`, `is_stream`, `http_status`, `latency_ms`, all 6 token counters, `pricing_rule_id`, per-category USD costs, `cache_savings_usd`, `total_cost_usd`, `total_cost_eur`, `client_agent`, `error_message`).
+  3. **`plan_live_quotas`**: Dynamic IDE & AI extension quota pools (`surface`, `group_id`, `group_label`, `window_id`, `window_label`, `window_minutes`, `remaining_pct`, `used_pct`, `remaining_count`, `limit_count`, `resets_at`, `plan_tier`, `source_method`, `updated_at`) with automatic rollover healing.
+  4. **`paid_api_requests`**: Audit-grade ledger of billable API calls (`request_uid`, `created_at`, `project_name`, `provider`, `model_name`, `endpoint`, `is_stream`, `http_status`, `latency_ms`, all 6 token counters, `pricing_rule_id`, per-category USD costs, `cache_savings_usd`, `total_cost_usd`, `total_cost_eur`, `client_agent`, `error_message`).
 
 ---
 
@@ -551,7 +564,7 @@ python3 tests/test_backend_e2e.py
 node tests/test_frontend_ui.mjs
 python3 tests/test_release_pipeline.py
 
-# Build self-contained Open Packaging Conventions archive: vscode-extension/ai-token-tracker-1.1.7.vsix
+# Build self-contained Open Packaging Conventions archive: vscode-extension/ai-token-tracker-1.1.8.vsix
 python3 vscode-extension/build_vsix.py
 ```
 

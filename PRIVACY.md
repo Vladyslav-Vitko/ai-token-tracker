@@ -10,7 +10,7 @@
 **AI Token & Cost Tracker** is engineered as a **100% Local-First** developer utility and proxy gateway (`http://127.0.0.1:8787`):
 
 1. **Zero Cloud Telemetry:** The extension and local Python daemon do **not** collect, transmit, or store any usage analytics, crash reports, prompts, completions, source code, or repository names on any server controlled by Vladyslav Vitko.
-2. **Local SQLite Storage:** All token counters, request metadata, and project cost ledgers are stored strictly on your local disk (`~/.config/ai-token-tracker/usage.sqlite3` or the local `data/usage.sqlite3` folder).
+2. **Local SQLite Storage:** All token counters, live IDE quota percentages (`plan_live_quotas`), request metadata, and project cost ledgers are stored strictly on your local disk (`~/.config/ai-token-tracker/usage.sqlite3` or the local `data/usage.sqlite3` folder). Read-only inspection of local IDE quota caches strictly excludes authentication tokens, cookies, OAuth credentials, and session secrets.
 3. **Isolated API Keys (`chmod 0600`):** Your upstream LLM provider API keys (Google Gemini, Anthropic Claude, OpenAI, OpenRouter, or custom endpoints) are stored exclusively on your local filesystem (`secrets.json` with strict `0600` POSIX owner-only permissions) and are transmitted only directly from your machine to the respective upstream LLM provider you explicitly invoke.
 
 ---
@@ -36,7 +36,7 @@
 
 ### 3.2 Lokale Speicherung
 
-- **Datenbank:** Alle Token- und Kostenstatistiken werden ausschließlich lokal in einer SQLite-Datenbank (`usage.sqlite3`) auf Ihrem Computer gespeichert.
+- **Datenbank:** Alle Token-, Live-Quota- (`plan_live_quotas`) und Kostenstatistiken werden ausschließlich lokal in einer SQLite-Datenbank (`usage.sqlite3`) auf Ihrem Computer gespeichert. Beim schreibgeschützten Auslesen lokaler IDE-Kontingentdaten werden Authentifizierungs-Tokens, Cookies, OAuth-Zugangsdaten und Sitzungsgeheimnisse strikt ausgeschlossen.
 - **API-Schlüssel:** Ihre hinterlegten Provider-API-Keys werden lokal mit strikten Dateiberechtigungen (`chmod 0600`) in `secrets.json` gespeichert und nur bei expliziten API-Aufrufen direkt an den jeweiligen KI-Anbieter (Google, Anthropic, OpenAI, OpenRouter etc.) übermittelt.
 
 ### 3.3 Lizenzprüfung & Zahlungsabwicklung
